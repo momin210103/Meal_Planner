@@ -7,7 +7,7 @@ const navItems = [
   { path: "/", label: "Home" },
   { path: "/about", label: "About" },
   { path: "/contact", label: "Contact" },
-  { path: "/services", label: "Services" },
+  { path: "/login", label: "Login" },
 ];
 const NavItems = ({toggle}) => {
   return (

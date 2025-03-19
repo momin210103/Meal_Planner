@@ -4,7 +4,7 @@ import Nabvar from './components/Nabvar';
 const App = () => {
   return (
     <div>
-      <Nabvar/>
+      <Nabvar></Nabvar>
     </div>
   );
 };

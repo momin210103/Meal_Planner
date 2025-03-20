@@ -17,7 +17,7 @@ const NavItems = ({toggle}) => {
           <NavLink
             to={item.path}
             className={({ isActive}) =>
-            isActive ? "text-amber-500" : "hover:text-amber-500"
+            isActive ? "text-amber-500 " : "hover:text-amber-500 hover:border-2 border-green-500"
             }
           >
             {item.label}
@@ -36,7 +36,7 @@ const Nabvar = () => {
 
     }
   return (
-    <header>
+    <header className="bg-[#F5F5F5] shadow-2xl">
       <nav className="max-w-screen-2xl container mx-auto flex justify-between items-center py-6">
         <Link to="/" className="font-bold">
           Logo

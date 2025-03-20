@@ -1,11 +1,15 @@
 import React from 'react';
-import Nabvar from './components/Nabvar';
+import Nabvar from './components/Navbar';
+import { Outlet } from 'react-router';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
-    <div>
-      <Nabvar></Nabvar>
-    </div>
+   <>
+   <nav><Nabvar/></nav>
+   <main className='min-h-[calc(100vh-100px)]'><Outlet/></main>
+   <Footer/>
+   </>
   );
 };
 

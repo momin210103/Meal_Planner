@@ -30,7 +30,7 @@ const NavItems = ({ toggle }) => {
   );
 };
 
-const Nabvar = () => {
+const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggle = () => {
@@ -76,4 +76,4 @@ const Nabvar = () => {
   );
 };
 
-export default Nabvar;
+export default Navbar;

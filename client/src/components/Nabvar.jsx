@@ -38,7 +38,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-lg rounded-2xl">
+    <header className=" fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-lg rounded-2xl">
       <nav className="max-w-screen-2xl container mx-auto flex justify-between items-center py-4 px-6">
         <Link to="/" className="font-bold text-2xl text-white">
           MyLogo

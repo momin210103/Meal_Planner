@@ -4,6 +4,7 @@ import App from './App.jsx';
 import Home from './Pages/home/Home.jsx';
 import "./index.css"
 import LoginPage from './Pages/login/LoginPage.jsx';
+import SignupPage from './Pages/signup/SignupPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="about" element={<div>About</div>} />
         <Route path="contact" element={<div>Contact</div>} />
         <Route path="login" element={<LoginPage/>} />
+        <Route path="signup" element={<SignupPage/>} />
       </Route>
     </Routes>
   </BrowserRouter>

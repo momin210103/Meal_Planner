@@ -90,11 +90,13 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6 mt-20">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
         {/* Include the Profile component here */}
         <Profile />
-            {/* Add other cards or components */}  
+            {/* Add other cards or components */} 
+        <Profile /> 
       </div>
+      
     </div>
   );
 };

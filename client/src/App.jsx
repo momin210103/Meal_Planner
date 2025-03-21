@@ -5,12 +5,14 @@ import Footer from './components/Footer';
 const App = () => {
   
   return (
-   <>
+   <div className=''>
    <nav><Nabvar/></nav>
-   <main className='min-h-[calc(100vh-100px)]'><Outlet/></main>
+   <main className='min-h-screen'><Outlet/></main>
    <Footer/>
-   </>
+   </div>
   );
 };
 
 export default App;
+
+//

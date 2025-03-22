@@ -79,8 +79,8 @@ const ToDayMeal = () => {
           <MealSwitch
             mealName="Fest Meal"
             defaultChecked={false}
-            onChange={(isChecked) => handleMealToggle('Dinner', isChecked)}
-            disabled={isDisabled}
+            onChange={(isChecked) => handleMealToggle('Fest Meal', isChecked)}
+            disabled={!isDisabled}
           />
           
         </Card>

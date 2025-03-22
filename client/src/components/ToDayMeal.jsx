@@ -19,7 +19,7 @@ const ToDayMeal = () => {
           <h2 className="text-gray-700 mb-6">{dayName}</h2>
           <MealSwitch
             mealName="Breakfast"
-            defaultChecked={true}
+            defaultChecked={false}
             onChange={(isChecked) => handleMealToggle('Breakfast', isChecked)}
           />
           <MealSwitch
@@ -29,7 +29,12 @@ const ToDayMeal = () => {
           />
           <MealSwitch
             mealName="Dinner"
-            defaultChecked={true}
+            defaultChecked={false}
+            onChange={(isChecked) => handleMealToggle('Dinner', isChecked)}
+          />
+          <MealSwitch
+            mealName="Fest Meal"
+            defaultChecked={false}
             onChange={(isChecked) => handleMealToggle('Dinner', isChecked)}
           />
         </Card>

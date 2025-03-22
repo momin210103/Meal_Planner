@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-const MealSwitch = ({ mealName, defaultChecked = false, onChange }) => {
+const MealSwitch = ({ mealName, defaultChecked = false, onChange, disabled }) => {
   const [isChecked, setIsChecked] = useState(defaultChecked);
 
   const handleToggle = () => {
-    const newCheckedState = !isChecked;
+    if(!disabled){
+        const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
     if (onChange) {
       onChange(newCheckedState);
+    }
     }
   };
 
@@ -20,11 +22,12 @@ const MealSwitch = ({ mealName, defaultChecked = false, onChange }) => {
           checked={isChecked}
           onChange={handleToggle}
           className="sr-only"
+          disabled = {disabled}
         />
         <div
           className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
             isChecked ? 'bg-green-500' : 'bg-gray-300'
-          }`}
+          } ${disabled ? 'opacity-50 cursor-not-allowed':''}`}
         >
           <div
             className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${

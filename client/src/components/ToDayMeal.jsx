@@ -4,8 +4,10 @@ import MealSwitch from './MealSwitch';
 
 const ToDayMeal = () => {
     const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate()+1);
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const dayName = days[today.getDay()];
+    const dayName = days[tomorrow.getDay()];
   
     const handleMealToggle = (mealName, isChecked) => {
       console.log(`${mealName} is ${isChecked ? 'enabled' : 'disabled'}`);
@@ -14,9 +16,9 @@ const ToDayMeal = () => {
     return (
       <div>
         <Card>
-          <h1 className="text-black font-bold text-xl mb-4">Select Your Meal</h1>
-          <h2 className="text-gray-700">Date: {today.toLocaleDateString()}</h2>
-          <h2 className="text-gray-700 mb-6">{dayName}</h2>
+          <h1 className="text-black font-bold text-xl mb-2">Select Your Meal :{dayName}</h1>
+          <h2 className="text-gray-700">Date: {tomorrow.toLocaleDateString()}</h2>
+          
           <MealSwitch
             mealName="Breakfast"
             defaultChecked={false}

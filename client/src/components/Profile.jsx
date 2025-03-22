@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../components/card/Card';
-import profileImage from '../../src/assets/hero2.jpg'
+import profileImage from '../../src/assets/momin (3).jpg'
 const Profile = () => {
     const user = {
         name:'Momin Sheikh',

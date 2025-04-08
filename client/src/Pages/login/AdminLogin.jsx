@@ -11,7 +11,7 @@ const AdminLogin = () => {
     e.preventDefault();
     console.log('Email:', email);
     console.log('Password:', password);
-    navigate('/dashboard')
+    navigate('/admindashboard')
     
   };
 

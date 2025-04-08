@@ -5,7 +5,7 @@ const Profile = () => {
     const user = {
         name:'Momin Sheikh',
         email:'john@example.com',
-        role: 'user',
+        role: 'Manager',
         room: '210',
         image:profileImage
     }

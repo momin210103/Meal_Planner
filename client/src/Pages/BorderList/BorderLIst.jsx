@@ -1,13 +1,15 @@
 import React from 'react';
 import Card from './../../components/card/Card';
 
-const BorderLIst = () => {
+const BorderList = () => {
     return (
-        <div className='bg-white'>
-            Hello Borlder
+        <div>
+            <h2 className='text-3xl font-bold'>Border List</h2>
+            <Card/>
+            
 
         </div>
     );
 };
 
-export default BorderLIst;
+export default BorderList;

@@ -12,7 +12,7 @@ const Acount = () => {
         <>
             <Card>
                 <div className='grid grid-cols-2 gap-5 bg-gray-100 text-black font-bold p-5'>
-                    <div>
+                    <div className='CuBalance'>
                         <h1>Current Balance</h1>
                         <Card />
                     </div>

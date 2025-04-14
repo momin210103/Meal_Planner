@@ -9,6 +9,7 @@ import UserDashBoard from './Pages/User/UserDashBoard.jsx';
 import About from './Pages/about/About.jsx';
 import AdminLogin from './Pages/login/AdminLogin.jsx';
 import AdminDashboard from './Pages/Admin/AdminDashboard.jsx';
+import ADDBalance from './components/ADDBalance.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="dashboard" element={<UserDashBoard/>} />
         <Route path="adminlogin" element={<AdminLogin/>} />
         <Route path="admindashboard" element={<AdminDashboard/>} />
+        <Route path="addbalance" element={<ADDBalance/>} />
         
       </Route>
     </Routes>

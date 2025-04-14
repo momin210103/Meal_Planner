@@ -3,10 +3,10 @@ import Card from '../components/card/Card';
 import profileImage from '../../src/assets/momin (3).jpg'
 const Profile = () => {
     const user = {
-        name:'Momin Sheikh',
-        email:'john@example.com',
-        role: 'Manager',
-        room: '210',
+        name:' Momin Sheikh',
+        email:' momincse13@gmail.com',
+        role: ' User',
+        room: ' 210',
         image:profileImage
     }
   return (

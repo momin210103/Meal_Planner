@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-//this is about page
+//this is about page new page
 const About = () => {
     const [jokes,setJokes] = useState([]);
 

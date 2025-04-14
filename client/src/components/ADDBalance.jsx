@@ -1,65 +1,67 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import BalanceDetails from './BalanceDetails'; // import BalanceDetails
 
 const ADDBalance = () => {
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState('');
+    const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // You can handle the form submission logic here
-        console.log('Balance:', amount);
-        console.log('Date:', date);
-        // Reset form
-        setAmount('');
-        setDate('');
+        setShowDetails(true); // Show after submit
     };
-    const handleBack = () =>{
-        navigate('/dashboard');
-    }
+
+    const handleBack = () => {
+        navigate('/dashboard',{
+            state:{amount,date}//pass the values to the dashboard
+        });
+    };
 
     return (
-        <div className="max-w-md mx-auto p-4 bg-white rounded-xl shadow-md">
-            <h2 className="text-xl font-bold mb-4">Add Balance</h2>
+        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <h2 className="text-2xl font-bold text-center mb-6">Add Balance</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium mb-1" htmlFor="amount">Amount</label>
+                    <label htmlFor="amount" className="block text-sm font-semibold mb-1">Amount</label>
                     <input
                         type="number"
                         id="amount"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter amount"
                         required
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium mb-1" htmlFor="date">Date</label>
+                    <label htmlFor="date" className="block text-sm font-semibold mb-1">Date</label>
                     <input
                         type="date"
                         id="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <button
                     type="submit"
-                    className="w-full bg-green-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition-colors"
                 >
                     Submit
                 </button>
                 <button
                     type="button"
                     onClick={handleBack}
-                    className="w-full mt-2 bg-gray-300 hover:bg-gray-400 text-black font-semibold py-2 rounded-md transition-colors cursor-pointer"
+                    className="w-full mt-2 bg-gray-300 hover:bg-gray-400 text-black font-semibold py-2 rounded-md transition-colors"
                 >
                     Back to Dashboard
                 </button>
             </form>
+
+            {showDetails && <BalanceDetails amount={amount} date={date} />}
         </div>
     );
 };

@@ -14,3 +14,6 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+//Db.js
+// This file is responsible for connecting to the MongoDB database using Mongoose.

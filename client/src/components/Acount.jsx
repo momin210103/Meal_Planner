@@ -1,8 +1,9 @@
 import Card from './card/Card';
 import ADDBalance from './ADDBalance';
 import { useNavigate } from 'react-router';
+import BalanceDetails from './BalanceDetails';
 
-const Acount = () => {
+const Acount = ({balance}) => {
     const navigate = useNavigate();
     const handleClick = () =>{
         navigate('/addbalance');
@@ -14,7 +15,9 @@ const Acount = () => {
                 <div className='grid grid-cols-2 gap-5 bg-gray-100 text-black font-bold p-5'>
                     <div className='CuBalance'>
                         <h1>Current Balance</h1>
-                        <Card />
+                        <Card>{balance?.amount || 0}</Card>
+                         
+                        
                     </div>
                     <div>
                         <h1>Previous Balance</h1>

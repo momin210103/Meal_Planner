@@ -2,12 +2,14 @@
 import Profile from '../../components/Profile';
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import ToDayMeal from '../../components/ToDayMeal';
 import Acount from '../../components/Acount';
 
 const UserDashBoard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const balanceData = location.state || {amount:null,date:null};
 
   // Mock user data (simulate logged-in user)
   const [user, setUser] = useState({
@@ -45,7 +47,7 @@ const UserDashBoard = () => {
       <main className="container mx-auto px-6 py-8 space-y-1 gap-2 md:grid md:grid-cols-2 md:gap-4">
         <Profile/>
         <ToDayMeal/>
-        <Acount/>
+        <Acount balance = {balanceData}/>
       </main>
     </div>
   );

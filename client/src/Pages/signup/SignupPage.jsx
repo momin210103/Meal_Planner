@@ -4,10 +4,11 @@ import axios from 'axios';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    username: ''
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,7 @@ const SignupPage = () => {
       ...prev,
       [name]: value
     }));
-    // Clear error when user types
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -30,16 +31,17 @@ const SignupPage = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Name is required';
     }
-    
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
+    }
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
-    
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 8) {
@@ -51,46 +53,41 @@ const SignupPage = () => {
     } else if (!/\d/.test(formData.password)) {
       newErrors.password = 'Password must contain at least one number';
     }
-    
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
     setErrors({});
     
     try {
-      const response = await axios.post('http://localhost:3000/signup', {
-        name: formData.name,
+      await axios.post('http://localhost:8000/api/v1/users/register', {
+        fullName: formData.fullName,
         email: formData.email,
+        username: formData.username,
         password: formData.password
       });
 
       setSuccessMessage('Registration successful! Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000);
-      
     } catch (err) {
       if (err.response) {
-        // Server responded with an error status
         if (err.response.status === 409) {
           setErrors({ email: err.response.data.error });
         } else {
           setErrors({ form: err.response.data.error || 'Registration failed' });
         }
       } else if (err.request) {
-        // Request was made but no response received
         setErrors({ form: 'No response from server' });
       } else {
-        // Something else happened
         setErrors({ form: 'Error submitting form' });
       }
     } finally {
@@ -117,21 +114,39 @@ const SignupPage = () => {
         
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">
               Name
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+              id="fullName"
+              name="fullName"
+              value={formData.fullName}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.fullName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
               placeholder="Enter your name"
             />
-            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.username ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+              }`}
+              placeholder="Enter your username"
+            />
+            {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
           </div>
           
           <div className="mb-4">

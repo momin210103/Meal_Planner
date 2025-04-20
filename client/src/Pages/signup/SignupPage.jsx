@@ -69,7 +69,7 @@ const SignupPage = () => {
     setErrors({});
     
     try {
-      await axios.post('http://localhost:8000/api/v1/users/register', {
+      await axios.post('/api/v1/users/register', {
         fullName: formData.fullName,
         email: formData.email,
         username: formData.username,
@@ -184,7 +184,7 @@ const SignupPage = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-10 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-10 text-gray-500 hover:text-gray-700 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? 'Hide' : 'Show'}
@@ -215,7 +215,7 @@ const SignupPage = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
+            className={`w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer ${
               isLoading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >

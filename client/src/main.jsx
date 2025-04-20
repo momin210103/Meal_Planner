@@ -10,6 +10,10 @@ import About from './Pages/about/About.jsx';
 import AdminLogin from './Pages/login/AdminLogin.jsx';
 import AdminDashboard from './Pages/Admin/AdminDashboard.jsx';
 import ADDBalance from './components/ADDBalance.jsx';
+import BorderList from './Pages/BorderList/BorderLIst.jsx';
+import Profile from './components/Profile.jsx';
+import UserContextProvider from './Context/UserContextProvider.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -24,6 +28,9 @@ createRoot(document.getElementById('root')).render(
         <Route path="adminlogin" element={<AdminLogin/>} />
         <Route path="admindashboard" element={<AdminDashboard/>} />
         <Route path="addbalance" element={<ADDBalance/>} />
+        <Route path="borderlist" element={<BorderList />} />
+        <Route path ="profile" element = {<Profile/>}/>
+        
         
       </Route>
     </Routes>

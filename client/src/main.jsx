@@ -12,7 +12,8 @@ import AdminDashboard from './Pages/Admin/AdminDashboard.jsx';
 import ADDBalance from './components/ADDBalance.jsx';
 import BorderList from './Pages/BorderList/BorderLIst.jsx';
 import Profile from './components/Profile.jsx';
-import UserContextProvider from './Context/UserContextProvider.jsx';
+
+import MealMonth from './Meal/MealMonth.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -30,6 +31,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="addbalance" element={<ADDBalance/>} />
         <Route path="borderlist" element={<BorderList />} />
         <Route path ="profile" element = {<Profile/>}/>
+        <Route path='mealmonth' element = {<MealMonth/>}/>
         
         
       </Route>

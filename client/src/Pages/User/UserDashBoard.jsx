@@ -76,6 +76,13 @@ const UserDashBoard = () => {
           >
             Meal Details
           </button>
+          <button
+            type="submit"
+            onClick={() => navigate('/mealplan')}
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 cursor-pointer"
+          >
+            Plan
+          </button>
         </div>
 
       </main>

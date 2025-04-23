@@ -1,20 +1,38 @@
-import React, { useState } from 'react';
-import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-} from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval } from 'date-fns';
 
 const MealMonth = () => {
   const currentDate = new Date();
   const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/v1/users/dailymeal", {
+          withCredentials: true
+        });
+        setItems(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading......</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const monthNames = [
     'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December',
+    'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
   const handleMonthChange = (e) => setSelectedMonth(Number(e.target.value));
@@ -29,23 +47,14 @@ const MealMonth = () => {
   const days = getDaysInMonth(selectedYear, selectedMonth);
 
   const getMeal = (date, type) => {
-    const sampleMeals = {
-      '2025-04-01': {
-        Breakfast: { item: 'Oats', quantity: 1 },
-        Lunch: { item: 'Grilled Chicken', quantity: 2 },
-        Dinner: { item: 'Salad', quantity: 1 },
-        Feast: { item: 'Cake', quantity: 1 },
-      },
-      '2025-04-02': {
-        Breakfast: { item: 'Smoothie', quantity: 1 },
-        Lunch: { item: 'Rice & Beans', quantity: 1 },
-        Dinner: { item: 'Fish Curry', quantity: 2 },
-        Feast: null,
-      },
-    };
+    const dayKey = format(date, "yyyy-MM-dd");
+    const found = items.find(item => format(new Date(item.date), "yyyy-MM-dd") === dayKey);
 
-    const dayKey = format(date, 'yyyy-MM-dd');
-    return sampleMeals[dayKey]?.[type] || null;
+    if (found && found.selection) {
+      const mealSelected = found.selection[type.toLowerCase()];
+      return mealSelected ? `${type} (Selected)` : '—';
+    }
+    return '—';
   };
 
   let totalMonthlyMeals = 0;
@@ -91,19 +100,16 @@ const MealMonth = () => {
           let dailyTotal = 0;
           const meals = ['Breakfast', 'Lunch', 'Dinner'].map((type) => {
             const meal = getMeal(day, type);
-            if (meal?.quantity) dailyTotal += meal.quantity;
+            if (meal !== '—') dailyTotal += 1;
             return {
               type,
-              ...meal,
+              meal,
             };
           });
           totalMonthlyMeals += dailyTotal;
 
           return (
-            <div
-              key={day.toISOString()}
-              className="border border-gray-300 rounded-lg p-4 shadow-sm"
-            >
+            <div key={day.toISOString()} className="border border-gray-300 rounded-lg p-4 shadow-sm">
               <div className="font-bold text-lg mb-2">
                 {format(day, 'do MMM, EEE')}
               </div>
@@ -111,13 +117,13 @@ const MealMonth = () => {
                 {meals.map((meal) => (
                   <li key={meal.type} className="flex justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      {meal.item && (
+                      {meal.meal !== '—' && (
                         <span className="w-2.5 h-2.5 bg-green-500 rounded-full inline-block"></span>
                       )}
                       {meal.type}
                     </span>
                     <span className="text-right text-gray-700">
-                      {meal.item ? `${meal.item} (${meal.quantity})` : '—'}
+                      {meal.meal || '—'}
                     </span>
                   </li>
                 ))}
@@ -145,20 +151,20 @@ const MealMonth = () => {
           <tbody>
             {days.map((day) => {
               let dailyTotal = 0;
-              const mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
-              const mealCells = mealTypes.map((type) => {
-                const meal = getMeal(day, type);
-                if (meal?.quantity) dailyTotal += meal.quantity;
+              const mealCells = ['Breakfast', 'Lunch', 'Dinner'].map((mealType) => {
+                const meal = getMeal(day, mealType);
+                const isSelected = meal !== '—';
+
+                if (isSelected) dailyTotal += 1;
+
                 return (
-                  <td key={type} className="p-3 border border-gray-300">
-                    {meal ? (
-                      <div className="flex items-center gap-2">
+                  <td key={mealType} className="p-3 border border-gray-300">
+                    <div className="flex items-center gap-2">
+                      {isSelected && (
                         <span className="w-2.5 h-2.5 bg-green-500 rounded-full inline-block"></span>
-                        {meal.item} <span className="text-gray-500 text-xs">({meal.quantity})</span>
-                      </div>
-                    ) : (
-                      <span className="text-gray-400">—</span>
-                    )}
+                      )}
+                      {meal}
+                    </div>
                   </td>
                 );
               });

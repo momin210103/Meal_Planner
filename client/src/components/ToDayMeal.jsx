@@ -83,6 +83,24 @@ const ToDayMeal = () => {
     }
 
   }
+  useEffect(()=>{
+    const fetchSaveMeal = async () =>{
+      try{
+        const response = await axios.get('http://localhost:8000/api/v1/users/dailymeal?date',{withCredentials:true});
+        if(response.data){
+          setMealSelection(response.data.selection);
+          setIsSaved(true);
+          setIsDisabled(true);
+        }
+
+      } catch(error){
+        console.log("Meal not selected yet:",error);
+      }
+    }
+    fetchSaveMeal();
+
+
+  },[])
 
  
  

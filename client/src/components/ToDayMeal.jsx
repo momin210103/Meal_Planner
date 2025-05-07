@@ -19,8 +19,13 @@ const ToDayMeal = () => {
       Dinner: false,
 
     });
+    const [mealItem,setMealItem] = useState({
+      breakfastItem:" ",
+      lunchItem:" ",
+      dinnerItem: " "
+    })
   
-    const handleMealToggle = (mealName, isChecked) => {
+    const handleMealToggle = (mealName, isChecked,) => {
       setMealSelection(prev => ({
         ...prev,
         [mealName.toLowerCase()]: isChecked
@@ -102,6 +107,25 @@ const ToDayMeal = () => {
 
   },[])
 
+  //get meal
+  useEffect(()=>{
+    axios.get('http://localhost:8000/api/v1/users/mealplan',{withCredentials:true})
+    .then((res) => {
+      const mealData = res.data?.data?.mealPlans?.[0]?.meals;
+      if (mealData) {
+        setMealItem({
+          breakfastItem: mealData.breakfast|| " ",
+          lunchItem: mealData.lunch || " ",
+          dinnerItem: mealData.dinner || " "
+        });
+      }
+    })
+    .catch((err)=>{
+      console.log("Failed to fetch meal plan",err)
+    })
+
+  },[])
+
  
  
   
@@ -112,6 +136,15 @@ const ToDayMeal = () => {
           <h2 className="text-gray-700">Date: {tomorrow.toLocaleDateString()}</h2>
           <div>
             <Countdown initialTime={getEndTimeToday()}/>
+          </div>
+          <div>
+            <p>
+              <ul>
+                <li><strong>Breakfast:{mealItem.breakfastItem}</strong></li>
+                <li><strong>Lunch:{mealItem.lunchItem}</strong></li>
+                <li><strong>Dinner:{mealItem.dinnerItem}</strong></li>
+              </ul>
+            </p>
           </div>
           <MealSwitch
             mealName="Breakfast"

@@ -29,7 +29,7 @@ const MealPlan = () => {
     setStatus({ type: null, message: '' });
 
     try {
-      await axios.post('http://localhost:8000/api/v1/mealplan', {
+      await axios.post('http://localhost:8000/api/v1/users/mealplan', {
         date: new Date(new Date().setDate(new Date().getDate() + 1)), // tomorrow
         meals: mealPlan
       }, {

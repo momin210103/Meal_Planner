@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from './card/Card';
 import MealSwitch from './MealSwitch';
 import Countdown from './CountDown';
+import axios from 'axios';
 
 
 const ToDayMeal = () => {
@@ -11,10 +12,26 @@ const ToDayMeal = () => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayName = days[tomorrow.getDay()];
     const [isDisabled,setIsDisabled] = useState(false);
+    const [isSaved,setIsSaved] = useState(false);
+    const [mealSelection, setMealSelection] = useState({
+      Breakfast: false,
+      Lunch: false,
+      Dinner: false,
+
+    });
+    const [mealItem,setMealItem] = useState({
+      breakfastItem:" ",
+      lunchItem:" ",
+      dinnerItem: " "
+    })
   
-    const handleMealToggle = (mealName, isChecked) => {
-    console.log(`${mealName} is ${isChecked ? 'enabled' : 'disabled'}`);
+    const handleMealToggle = (mealName, isChecked,) => {
+      setMealSelection(prev => ({
+        ...prev,
+        [mealName.toLowerCase()]: isChecked
+      }));
     };
+
 
     // Function to get today's 10:00 PM time
     const getEndTimeToday = () => {
@@ -48,7 +65,69 @@ const ToDayMeal = () => {
       // Clean up the interval on component unmount
       return () => clearInterval(interval);
   }, []);
+  const handleSaveSelection = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/users/dailymeal',
+        {
+          date: tomorrow,
+          selection: mealSelection
+        },
+        {
+          withCredentials: true // Needed to send cookies
+        }
+      );
+      if(response.status == 200){
+        setIsSaved(true);
+        setIsDisabled(true);
 
+      }
+      
+    } catch (error) {
+      console.error('❌ Failed to save meal selection:', error);
+    }
+
+  }
+  useEffect(()=>{
+    const fetchSaveMeal = async () =>{
+      try{
+        const response = await axios.get('http://localhost:8000/api/v1/users/dailymeal?date',{withCredentials:true});
+        if(response.data){
+          setMealSelection(response.data.selection);
+          setIsSaved(true);
+          setIsDisabled(true);
+        }
+
+      } catch(error){
+        console.log("Meal not selected yet:",error);
+      }
+    }
+    fetchSaveMeal();
+
+
+  },[])
+
+  //get meal
+  useEffect(()=>{
+    axios.get('http://localhost:8000/api/v1/users/mealplan',{withCredentials:true})
+    .then((res) => {
+      const mealData = res.data?.data?.mealPlans?.[0]?.meals;
+      if (mealData) {
+        setMealItem({
+          breakfastItem: mealData.breakfast|| " ",
+          lunchItem: mealData.lunch || " ",
+          dinnerItem: mealData.dinner || " "
+        });
+      }
+    })
+    .catch((err)=>{
+      console.log("Failed to fetch meal plan",err)
+    })
+
+  },[])
+
+ 
+ 
   
     return (
       <div>
@@ -57,6 +136,15 @@ const ToDayMeal = () => {
           <h2 className="text-gray-700">Date: {tomorrow.toLocaleDateString()}</h2>
           <div>
             <Countdown initialTime={getEndTimeToday()}/>
+          </div>
+          <div>
+            <p>
+              <ul>
+                <li><strong>Breakfast:{mealItem.breakfastItem}</strong></li>
+                <li><strong>Lunch:{mealItem.lunchItem}</strong></li>
+                <li><strong>Dinner:{mealItem.dinnerItem}</strong></li>
+              </ul>
+            </p>
           </div>
           <MealSwitch
             mealName="Breakfast"
@@ -76,13 +164,17 @@ const ToDayMeal = () => {
             onChange={(isChecked) => handleMealToggle('Dinner', isChecked)}
             disabled={isDisabled}
           />
-          <MealSwitch
-            mealName="Feast Meal"
-            defaultChecked={false}
-            onChange={(isChecked) => handleMealToggle('Fest Meal', isChecked)}
-            disabled={isDisabled}
-          />
-          
+          { !isSaved? (
+            <button onClick = {handleSaveSelection} disabled = {isDisabled} className = "mt-4 bg-green-500 text-white py-2 px-4 rounded">
+              Save Selection
+            </button>
+
+          ):(
+            <p className='mt-4 text-green-600 font-semibold'> You Selected your meal</p>
+
+          )
+
+          }
         </Card>
       </div>
     );

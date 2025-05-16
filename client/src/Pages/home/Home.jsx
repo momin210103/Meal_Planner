@@ -3,9 +3,9 @@ import Hero from './Hero';
 
 const Home = () => {
     return (
-        <>
-        <Hero/>
-        </>
+        <main className="min-h-screen w-full overflow-x-hidden">
+            <Hero />
+        </main>
     );
 };
 

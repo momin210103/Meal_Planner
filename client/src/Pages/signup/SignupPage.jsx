@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SignupPage = () => {
@@ -62,6 +62,7 @@ const SignupPage = () => {
   };
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -80,6 +81,7 @@ const SignupPage = () => {
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       if (err.response) {
+        console.log("Error:", err.response.data);
         if (err.response.status === 409) {
           setErrors({ email: err.response.data.error });
         } else {

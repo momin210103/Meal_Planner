@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from '../components/ErrorFallback';
+
 
 const MealMonth = () => {
+  const navigate = useNavigate();
   const currentDate = new Date();
   const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
@@ -13,22 +18,56 @@ const MealMonth = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Fetching meal data...');
         const response = await axios.get("http://localhost:8000/api/v1/users/dailymeal", {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
         });
-        setItems(response.data);
+        console.log('API Response:', response.data);
+        setItems(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (error) {
-        setError(error.message);
+        console.error('Error fetching meal data:', error);
+        if (error.response?.status === 401) {
+          // Redirect to login if unauthorized
+          navigate('/login');
+          return;
+        }
+        setItems([]);
+        setError(error.response?.data?.message || error.message || 'Failed to fetch meal data');
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [selectedMonth, selectedYear, navigate]);
 
-  if (loading) return <div>Loading......</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading meal data...</p>
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md">
+        <strong className="font-bold">Error: </strong>
+        <span className="block sm:inline">{error}</span>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  );
 
   const monthNames = [
     'January', 'February', 'March', 'April',
@@ -47,19 +86,28 @@ const MealMonth = () => {
   const days = getDaysInMonth(selectedYear, selectedMonth);
 
   const getMeal = (date, type) => {
-    const dayKey = format(date, "yyyy-MM-dd");
-    const found = items.find(item => format(new Date(item.date), "yyyy-MM-dd") === dayKey);
-
-    if (found && found.selection) {
-      const mealSelected = found.selection[type.toLowerCase()];
-      return mealSelected ? `${type} (Selected)` : '—';
+    try {
+      if (!Array.isArray(items)) return '—';
+      
+      const dayKey = format(date, "yyyy-MM-dd");
+      const found = items.find(item => 
+        item?.date && format(new Date(item.date), "yyyy-MM-dd") === dayKey
+      );
+      
+      // Safely check all levels
+      const mealType = type?.toLowerCase();
+      const isSelected = found?.selection?.[mealType];
+      
+      return isSelected ? `${type} (Selected)` : '—';
+    } catch (error) {
+      console.error('Error in getMeal:', error);
+      return '—';
     }
-    return '—';
   };
-
   let totalMonthlyMeals = 0;
 
   return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
     <div className="p-4 max-w-full mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
@@ -139,7 +187,7 @@ const MealMonth = () => {
       {/* Table Layout (Tablet and Desktop) */}
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full border border-gray-300 text-sm text-left min-w-[800px]">
-          <thead className="bg-green-100">
+          <thead className="bg-green-600 text-white">
             <tr>
               <th className="p-3 border border-gray-300">Date</th>
               <th className="p-3 border border-gray-300">Breakfast</th>
@@ -149,7 +197,7 @@ const MealMonth = () => {
             </tr>
           </thead>
           <tbody>
-            {days.map((day) => {
+            {days.map((day, index) => {
               let dailyTotal = 0;
               const mealCells = ['Breakfast', 'Lunch', 'Dinner'].map((mealType) => {
                 const meal = getMeal(day, mealType);
@@ -172,7 +220,12 @@ const MealMonth = () => {
               totalMonthlyMeals += dailyTotal;
 
               return (
-                <tr key={day.toISOString()} className="hover:bg-gray-50">
+                <tr 
+                  key={day.toISOString()} 
+                  className={`hover:bg-gray-100 transition-colors duration-200 ${
+                    index % 2 === 0 ? 'bg-white' : 'bg-green-50'
+                  }`}
+                >
                   <td className="p-3 border border-gray-300 font-medium whitespace-nowrap">
                     {format(day, 'do EEE')}
                   </td>
@@ -185,8 +238,8 @@ const MealMonth = () => {
             })}
           </tbody>
           <tfoot>
-            <tr className="bg-green-50 text-sm">
-              <td colSpan={5} className="p-3 border border-gray-300 font-bold text-right">
+            <tr className="bg-green-100 text-sm">
+              <td colSpan={4} className="p-3 border border-gray-300 font-bold text-right">
                 Monthly Total:
               </td>
               <td className="p-3 border border-gray-300 text-center font-bold">
@@ -197,6 +250,7 @@ const MealMonth = () => {
         </table>
       </div>
     </div>
+    </ErrorBoundary>
   );
 };
 

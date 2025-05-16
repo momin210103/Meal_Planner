@@ -12,34 +12,34 @@ const Acount = ({balance}) => {
     return (
         <>
             <Card>
-                <div className='grid grid-cols-2 gap-5 bg-gray-100 text-black font-bold p-5'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 bg-gray-100 text-black font-bold p-3 sm:p-5'>
                     <div className='CuBalance'>
-                        <h1>Current Balance</h1>
-                        <Card>{balance?.amount || 0}</Card>
-                         
-                        
+                        <h1 className='text-lg sm:text-xl mb-2'>Current Balance</h1>
+                        <Card className='text-center h-24 flex items-center justify-center'>{balance?.amount || 0}</Card>
                     </div>
                     <div>
-                        <h1>Previous Balance</h1>
-                        <Card />
+                        <h1 className='text-lg sm:text-xl mb-2'>Previous Balance</h1>
+                        <Card className='text-center h-24 flex items-center justify-center' />
                     </div>
                     <div>
-                        <h1>Total Meal</h1>
-                        <Card />
+                        <h1 className='text-lg sm:text-xl mb-2'>Total Meal</h1>
+                        <Card className='text-center h-24 flex items-center justify-center' />
                     </div>
                     <div>
-                        <h1>Meal Cost</h1>
-                        <Card />
+                        <h1 className='text-lg sm:text-xl mb-2'>Meal Cost</h1>
+                        <Card className='text-center h-24 flex items-center justify-center' />
                     </div>
                     <div>
-                        <h1>Due Amount</h1>
-                        <Card />
+                        <h1 className='text-lg sm:text-xl mb-2'>Due Amount</h1>
+                        <Card className='text-center h-24 flex items-center justify-center' />
                     </div>
-                    <div className="col-span-2 flex justify-center mt-4">
+                    <div className="col-span-1 sm:col-span-2 flex justify-center mt-4">
                         <button
                             onClick={handleClick}
                             className='
-                                px-8 py-3
+                                w-full sm:w-auto
+                                px-4 sm:px-8 
+                                py-2 sm:py-3
                                 rounded-xl
                                 font-bold text-white
                                 bg-gradient-to-r from-emerald-400 via-green-500 to-lime-400
@@ -57,7 +57,6 @@ const Acount = ({balance}) => {
                     </div>
                 </div>
             </Card>
-            
         </>
     );
 };

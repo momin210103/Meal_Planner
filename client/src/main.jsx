@@ -12,9 +12,10 @@ import AdminDashboard from './Pages/Admin/AdminDashboard.jsx';
 import ADDBalance from './components/ADDBalance.jsx';
 import BorderList from './Pages/BorderList/BorderLIst.jsx';
 import Profile from './components/Profile.jsx';
-
+import EmailVerifyPage from './Pages/login/EmailVerifyPage.jsx';
 import MealMonth from './Meal/MealMonth.jsx';
 import MealPlan from './components/MealPlan.jsx';
+
 
 
 createRoot(document.getElementById('root')).render(
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')).render(
         <Route path ="profile" element = {<Profile/>}/>
         <Route path='mealmonth' element = {<MealMonth/>}/>
         <Route path='mealplan' element = {<MealPlan/>} />
+        <Route path='verify-email' element = {<EmailVerifyPage/>} />
         
         
       </Route>

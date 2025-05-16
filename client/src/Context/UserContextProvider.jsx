@@ -1,14 +1,13 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
 import UserContext from "./UserContext";
 
 const UserContextProvider = ({ children }) => {
-    const [user,setUser] = useState({});
+    const [user, setUser] = useState({});
 
     useEffect(() => {
-        axios.get('/api/v1/users/me', {withCredentials: true})
+        axios.get('http://localhost:8000/api/v1/users/me', {withCredentials: true})
         .then((response) =>{
             setUser(response.data.data);
         })
@@ -17,13 +16,11 @@ const UserContextProvider = ({ children }) => {
         })
     },[]);
 
-
-    return(
-        <UserContext.Provider value = {{user,setUser}}>
-        {children}
+    return (
+        <UserContext.Provider value={{ user, setUser }}>
+            {children}
         </UserContext.Provider>
-    )
-
+    );
 }
 
 export default UserContextProvider;

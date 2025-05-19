@@ -5,6 +5,8 @@ import Acount from '../../components/Acount';
 import UserContext from '../../Context/UserContext';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../../components/ErrorFallback';
+import MealPlan from '../../components/MealPlan';
+import SavedMeals from '../../components/SavedMeals';
 
 
 const UserDashBoard = () => {
@@ -55,8 +57,12 @@ const UserDashBoard = () => {
             <p className='text-orange-700 font-bold text-xl sm:text-4xl text-center mt-2'>{user.Role}</p>
           </div>
 
-          <ToDayMeal/>
+          <SavedMeals/>
+
+          {/* <ToDayMeal/> */}
           <Acount balance={balanceData}/>
+          {/* <MealPlan/> */}
+            
 
           {/* Action Buttons Grid */}
           <div className='md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4'>
@@ -86,7 +92,7 @@ const UserDashBoard = () => {
               onClick={() => navigate('/mealplan')}
               className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 cursor-pointer text-sm sm:text-base"
             >
-              Plan
+              Plan and Customize
             </button>
           </div>
         </div>
@@ -97,8 +103,6 @@ const UserDashBoard = () => {
 };
 
 export default UserDashBoard;
-
-
 
 
 

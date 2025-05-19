@@ -5,9 +5,6 @@ import { FiCheckCircle, FiAlertCircle, FiSunrise, FiSun, FiMoon, FiArrowLeft, Fi
 import { useNavigate } from 'react-router';
 
 const MealPlan = () => {
-
-  
-
   const navigate = useNavigate();
   const [mealPlan, setMealPlan] = useState({
     breakfast: { name: '' },
@@ -32,10 +29,10 @@ const MealPlan = () => {
     }));
   };
 
-  const handleTimeChange = (timeType, value) => {
+    const handleTimeChange = (mealPlanIndex, type, value) => {
     setMealTimes(prev => ({
       ...prev,
-      [timeType]: value
+      [`${mealPlanIndex}-${type}`]: value
     }));
   };
 
@@ -119,6 +116,7 @@ const MealPlan = () => {
       setIsSubmitting(false);
     }
   };
+  
   
 
   return (

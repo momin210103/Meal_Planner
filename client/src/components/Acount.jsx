@@ -2,13 +2,37 @@ import Card from './card/Card';
 import ADDBalance from './ADDBalance';
 import { useNavigate } from 'react-router';
 import BalanceDetails from './BalanceDetails';
-
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 const Acount = ({balance}) => {
     const navigate = useNavigate();
+    const [totalMeal,setTotalMeal] = useState(0);
     const handleClick = () =>{
         navigate('/addbalance');
     }
-
+    useEffect(() => {
+        const fetchMonthlyMealCount = async () => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+    
+            try {
+                const response = await axios.get(
+                    'http://localhost:8000/api/v1/mealplan/monthly-meal-count',
+                    {
+                        params: { year, month },
+                        withCredentials: true, // ✅ সঠিক জায়গা
+                    }
+                );
+                setTotalMeal(response.data.data[0]?.totalMealsSelected ||0);
+            } catch (error) {
+                console.error("Error fetching meal count:", error);
+            }
+        };
+    
+        fetchMonthlyMealCount();
+    }, []);
+    
     return (
         <>
             <Card>
@@ -23,7 +47,7 @@ const Acount = ({balance}) => {
                     </div>
                     <div>
                         <h1 className='text-lg sm:text-xl mb-2'>Total Meal</h1>
-                        <Card className='text-center h-24 flex items-center justify-center' />
+                        <Card className='text-center h-24 flex items-center justify-center'>{totalMeal}</Card>
                     </div>
                     <div>
                         <h1 className='text-lg sm:text-xl mb-2'>Meal Cost</h1>

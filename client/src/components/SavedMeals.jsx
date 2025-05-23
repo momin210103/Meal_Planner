@@ -26,13 +26,11 @@ const SavedMeals = () => {
 
   // লোডেড ডেটের মধ্যে শুধু সিলেক্টেড ডেটের মিল ফিল্টার করব
   const filteredMeals = savedMeals.filter(mealPlan => {
-    const mealDate = new Date(mealPlan.date);
-    return (
-      mealDate.getFullYear() === selectedDate.getFullYear() &&
-      mealDate.getMonth() === selectedDate.getMonth() &&
-      mealDate.getDate() === selectedDate.getDate()
-    );
+    const mealDateStr = new Date(mealPlan.date).toISOString().split("T")[0];
+    const selectedDateStr = selectedDate.toISOString().split("T")[0];
+    return mealDateStr === selectedDateStr;
   });
+  
 
   useEffect(() => {
     localStorage.setItem('activeTimers', JSON.stringify(activeTimers));

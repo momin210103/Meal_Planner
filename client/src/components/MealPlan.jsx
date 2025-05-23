@@ -1,6 +1,7 @@
 import React, { useState, } from 'react';
 import axios from 'axios';
 import { FiCheckCircle, FiAlertCircle, FiSunrise, FiSun, FiMoon, FiArrowLeft, FiClock } from 'react-icons/fi';
+import MealWeightEditor from './MealWeightEditor';
 
 import { useNavigate } from 'react-router';
 
@@ -241,7 +242,9 @@ const MealPlan = () => {
             {isSubmitting ? 'Saving...' : 'Save Meal Plan'}
           </button>
         </div>
+        <MealWeightEditor/>
       </div>
+      
     </div>
   );
 };

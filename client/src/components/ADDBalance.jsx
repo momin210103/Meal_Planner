@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import BalanceDetails from './BalanceDetails'; // import BalanceDetails
+import axios from 'axios';
 
 const ADDBalance = () => {
     const [amount, setAmount] = useState('');
@@ -8,10 +9,22 @@ const ADDBalance = () => {
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setShowDetails(true); // Show after submit
-    };
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+    const response = await axios.post(
+    "http://localhost:8000/api/v1/userbalance/addbalance",
+    { amount: Number(amount), date: date },
+    { withCredentials: true }
+);  
+    console.log("Response:", response.data);
+    setShowDetails(true);
+    } catch (error) {
+        console.error("Error adding balance:", error);
+        alert(error.response?.data?.message || "Failed to add balance.");
+    }
+};
+
 
     const handleBack = () => {
         navigate('/dashboard',{

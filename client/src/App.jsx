@@ -7,7 +7,7 @@ import Sidebar from './components/Sidebar';
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarPaths = ['/about','/login','/signup','/addbalance','/profile','/mealmonth','/dashboard','/borderlist','/mealplan',]
+  const hideNavbarPaths = ['/about','/login','/signup','/addbalance','/profile','/mealmonth','/dashboard','/borderlist','/mealplan','/bazarlist']
   const shouldHideNavbar = hideNavbarPaths.includes(location.pathname);
   
   return (

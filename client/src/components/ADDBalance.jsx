@@ -37,7 +37,7 @@ const ADDBalance = () => {
             <h2 className="text-xl sm:text-2xl text-black font-bold text-center mb-4 sm:mb-6">Add Balance</h2>
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                 <div>
-                    <label htmlFor="amount" className="block text-sm sm:text-base font-semibold mb-1 text-gray-700">Amount</label>
+                    <label htmlFor="amount" className="block text-sm sm:text-base font-semibold mb-1 text-gray-700">Amount</label> 
                     <input
                         type="number"
                         id="amount"

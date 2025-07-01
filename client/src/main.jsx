@@ -15,6 +15,7 @@ import Profile from './components/Profile.jsx';
 import EmailVerifyPage from './Pages/login/EmailVerifyPage.jsx';
 import MealMonth from './Meal/MealMonth.jsx';
 import MealPlan from './components/MealPlan.jsx';
+import BazarList from './Pages/BazarList/BazarList.jsx';
 
 
 
@@ -36,8 +37,9 @@ createRoot(document.getElementById('root')).render(
         <Route path='mealmonth' element = {<MealMonth/>}/>
         <Route path='mealplan' element = {<MealPlan/>} />
         <Route path='verify-email' element = {<EmailVerifyPage/>} />
-        
-        
+        <Route path='bazarlist' element = {<BazarList/>} />
+
+
       </Route>
     </Routes>
   </BrowserRouter>

@@ -17,6 +17,7 @@ import MealMonth from './Meal/MealMonth.jsx';
 import MealPlan from './components/MealPlan.jsx';
 import BazarList from './Pages/BazarList/BazarList.jsx';
 import AddBazarList from './Pages/BazarList/AddBazarList.jsx';
+import MonthlyMealTable from './Meal/MealMonth.jsx';
 
 
 
@@ -35,7 +36,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="addbalance" element={<ADDBalance/>} />
         <Route path="borderlist" element={<BorderList />} />
         <Route path ="profile" element = {<Profile/>}/>
-        <Route path='mealmonth' element = {<MealMonth/>}/>
+        <Route path='mealmonth' element = {<MonthlyMealTable/>}/>
         <Route path='mealplan' element = {<MealPlan/>} />
         <Route path='verify-email' element = {<EmailVerifyPage/>} />
         <Route path='bazarlist' element = {<BazarList/>} />

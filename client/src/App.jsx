@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router';
 import Footer from './components/Footer';
 import UserContextProvider from './Context/UserContextProvider';
 import Sidebar from './components/Sidebar';
+import {Toaster} from 'react-hot-toast';
 
 const App = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const App = () => {
       )}
    
    <main className='min-h-screen'><Outlet/></main>
+   <Toaster position='top-center' reverseOrder={false} />
    {/* Show Footer only if not in hidden paths */}
    {
     !shouldHideNavbar && <Footer/>

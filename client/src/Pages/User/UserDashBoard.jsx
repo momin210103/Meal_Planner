@@ -101,6 +101,13 @@ const UserDashBoard = () => {
             >
               Plan and Customize
             </button>
+            <button
+              type="button"
+              onClick={() => navigate('/addbazarlist')}
+              className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 cursor-pointer text-sm sm:text-base"
+            >
+              AddBazarList
+            </button>
           </div>
         </div>
       </main>

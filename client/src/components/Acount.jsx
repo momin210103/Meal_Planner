@@ -4,12 +4,33 @@ import { useNavigate } from 'react-router';
 import BalanceDetails from './BalanceDetails';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-const Acount = ({balance}) => {
+import { getBalance } from '../api/Api';
+const Acount = () => {
     const navigate = useNavigate();
     const [totalMeal,setTotalMeal] = useState(0);
+    const [balanceData, setBalanceData] = useState(null);
+    const [loading,setLoading] = useState(true);
     const handleClick = () =>{
         navigate('/addbalance');
     }
+    useEffect(()=>{
+        const fetchBalance = async() =>{
+            try {
+             const res = await getBalance();
+            const balance = res.data[0];
+            setBalanceData(balance);
+            console.log(balance);
+
+            } catch(error){
+                console.error("Error fetching Balance",error);
+
+            } finally{
+                setLoading(false);
+            }
+
+        };
+        fetchBalance();
+    },[]);
     useEffect(() => {
         const fetchMonthlyMealCount = async () => {
             const now = new Date();
@@ -39,7 +60,7 @@ const Acount = ({balance}) => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 bg-gray-100 text-black font-bold p-3 sm:p-5'>
                     <div className='CuBalance'>
                         <h1 className='text-lg sm:text-xl mb-2'>Current Balance</h1>
-                        <Card className='text-center h-24 flex items-center justify-center'>{balance?.amount || 0}</Card>
+                        <Card className='text-center h-24 flex items-center justify-center'> {loading ? "Loading..." : (balanceData?.currentBalance ?? "N/A")}</Card>
                     </div>
                     <div>
                         <h1 className='text-lg sm:text-xl mb-2'>Previous Balance</h1>
@@ -51,6 +72,10 @@ const Acount = ({balance}) => {
                     </div>
                     <div>
                         <h1 className='text-lg sm:text-xl mb-2'>Meal Cost</h1>
+                        <Card className='text-center h-24 flex items-center justify-center' />
+                    </div>
+                    <div>
+                        <h1 className='text-lg sm:text-xl mb-2'>Meal Rate</h1>
                         <Card className='text-center h-24 flex items-center justify-center' />
                     </div>
                     <div>

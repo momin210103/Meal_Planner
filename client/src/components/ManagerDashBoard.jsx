@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FiLoader, FiCoffee, FiSun, FiMoon, FiClock } from "react-icons/fi";
+import {
+  FiLoader,
+  FiCoffee,
+  FiSun,
+  FiMoon,
+  FiPieChart,
+  FiTrendingUp,
+  FiDollarSign,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
 
 // Helper icons for type
@@ -22,38 +30,66 @@ const TotalMealsDashboard = () => {
   const [mealData, setMealData] = useState(null);
   const [fetchTime, setFetchTime] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [latestDate,setLatestDate] = useState(null);
+  const [latestDate, setLatestDate] = useState(null);
+
+  // New states
+  const [totalCost, setTotalCost] = useState(null);
+  const [totalBalance, setTotalBalance] = useState(null);
+  const [mealRate, setMealRate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get current month in YYYY-MM
         const now = new Date();
         const month = now.toISOString().slice(0, 7);
 
-        // Fetch month data
+        // Fetch monthly meal data
         const monthRes = await axios.get(
           `http://localhost:8000/api/v1/totalmealsofmonth/${month}`,
           { withCredentials: true }
         );
         setMonthData(monthRes.data.data);
 
-          const resLatestDate = await axios.get(
+        // Fetch latest meal plan date
+        const resLatestDate = await axios.get(
           "http://localhost:8000/api/v1/mealplan/latest",
           { withCredentials: true }
         );
-
-        // Fetch today's data
         const todayStr = resLatestDate.data.data.date;
-        const formattedDate = new Date(todayStr).toISOString().split("T")[0]; // "2025-07-04"
+        const formattedDate = new Date(todayStr).toISOString().split("T")[0];
         setLatestDate(formattedDate);
+
+        // Fetch today's meal weights
         const res = await axios.get(
           `http://localhost:8000/api/v1/totalweights/${todayStr}`,
           { withCredentials: true }
         );
         setMealData({ ...res.data.data, date: todayStr });
-        // console.log(res.data.data);
         setFetchTime(new Date().toLocaleTimeString());
+
+        // Fetch total cost
+        const costRes = await axios.get(
+          `http://localhost:8000/api/v1/bazarlist?month=${month}`,
+          { withCredentials: true }
+        );
+        setTotalCost(costRes.data.totalAmount);
+
+        // Fetch total balance
+        const balanceRes = await axios.get(
+          `http://localhost:8000/api/v1/allusercurrentbalance?month=${month}`,
+          { withCredentials: true }
+        );
+        setTotalBalance(balanceRes.data.totalCurrentBalance);
+        // console.log(balanceRes.totalCurrentBalance);
+        // console.log(costRes.data.totalAmount);
+
+        // Calculate meal rate
+        if (costRes.data.totalAmount && monthRes.data.data.totalWeight) {
+          const rate = (
+            costRes.data.totalAmount / monthRes.data.data.totalWeight
+          ).toFixed(2);
+          setMealRate(rate);
+        }
       } catch (error) {
         console.error(error);
         toast.error("Error fetching dashboard data.");
@@ -130,6 +166,39 @@ const TotalMealsDashboard = () => {
             </div>
           </div>
         )}
+
+        {/* Additional Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+          {/* Meal Rate */}
+          <div className="bg-white p-4 rounded-xl shadow text-center">
+            <FiPieChart className="mx-auto text-[#f57600] text-3xl" />
+            <h3 className="text-lg font-semibold mt-2">Meal Rate</h3>
+            <p className="text-xl font-bold">
+              {mealRate ? `${mealRate} Tk/meal` : "--"}
+            </p>
+            <p className="text-gray-500 text-sm">This Month</p>
+          </div>
+
+          {/* Total Balance */}
+          <div className="bg-white p-4 rounded-xl shadow text-center">
+            <FiTrendingUp className="mx-auto text-green-600 text-3xl" />
+            <h3 className="text-lg font-semibold mt-2">Total Balance</h3>
+            <p className="text-xl font-bold">
+              {totalBalance !== null ? `${totalBalance} Tk` : "--"}
+            </p>
+           <p className="text-gray-500 text-sm">This Month</p>
+          </div>
+
+          {/* Total Cost */}
+          <div className="bg-white p-4 rounded-xl shadow text-center">
+            <FiDollarSign className="mx-auto text-indigo-600 text-3xl" />
+            <h3 className="text-lg font-semibold mt-2">Total Cost</h3>
+            <p className="text-xl font-bold">
+              {totalCost !== null ? `${totalCost} Tk` : "--"}
+            </p>
+            <p className="text-gray-500 text-sm">This Month</p>
+          </div>
+        </div>
       </div>
     </div>
   );

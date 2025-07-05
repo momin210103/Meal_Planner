@@ -9,6 +9,7 @@ import {
   FiTrendingUp,
   FiDollarSign,
 } from "react-icons/fi";
+import { GiTakeMyMoney } from "react-icons/gi";
 import toast from "react-hot-toast";
 
 // Helper icons for type
@@ -36,6 +37,7 @@ const TotalMealsDashboard = () => {
   const [totalCost, setTotalCost] = useState(null);
   const [totalBalance, setTotalBalance] = useState(null);
   const [mealRate, setMealRate] = useState(null);
+  const [currentBalance, setCurrentBalance] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,11 +86,19 @@ const TotalMealsDashboard = () => {
         // console.log(costRes.data.totalAmount);
 
         // Calculate meal rate
-        if (costRes.data.totalAmount && monthRes.data.data.totalWeight) {
+        const totalCost = costRes.data.totalAmount;
+        const totalWeight = monthRes.data.data.totalWeight
+        if (totalCost && totalWeight) {
           const rate = (
-            costRes.data.totalAmount / monthRes.data.data.totalWeight
+            totalCost / totalWeight
           ).toFixed(2);
           setMealRate(rate);
+        }
+        //calculate current balance
+        const totalDeposit = balanceRes.data.totalCurrentBalance
+        if(totalCost && totalDeposit){
+          const currentBalance = (totalDeposit - totalCost)
+          setCurrentBalance(currentBalance);
         }
       } catch (error) {
         console.error(error);
@@ -182,10 +192,17 @@ const TotalMealsDashboard = () => {
           {/* Total Balance */}
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiTrendingUp className="mx-auto text-green-600 text-3xl" />
-            <h3 className="text-lg font-semibold mt-2">Total Balance</h3>
+            <h3 className="text-lg font-semibold mt-2">Total Deposit</h3>
             <p className="text-xl font-bold">
               {totalBalance !== null ? `${totalBalance} Tk` : "--"}
             </p>
+           <p className="text-gray-500 text-sm">This Month</p>
+          </div>
+
+          <div className="bg-white p-4 rounded-xl shadow text-center">
+            <GiTakeMyMoney className="mx-auto text-[#5ba300] text-3xl" />
+            <h3 className="text-lg font-semibold mt-2">Current Balance</h3>
+            <p className="text-xl font-bold">{currentBalance !==null ? `${currentBalance}Tk` : "--"}</p>
            <p className="text-gray-500 text-sm">This Month</p>
           </div>
 

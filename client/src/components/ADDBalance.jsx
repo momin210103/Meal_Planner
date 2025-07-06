@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import BalanceDetails from './BalanceDetails'; // import BalanceDetails
+import PendingCard from './BalanceDetails';
 import axios from 'axios';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { MdArrowBack } from 'react-icons/md';
 
 const ADDBalance = () => {
     const [amount, setAmount] = useState('');
@@ -9,35 +11,58 @@ const ADDBalance = () => {
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-    const response = await axios.put(
-    "http://localhost:8000/api/v1/addbalance",
-    { amount: Number(amount), date: date },
-    { withCredentials: true }
-);  
-    console.log("Response:", response.data);
-    setShowDetails(true);
-    } catch (error) {
-        console.error("Error adding balance:", error);
-        alert(error.response?.data?.message || "Failed to add balance.");
-    }
-};
+    // Load pending state from localStorage on mount
+    useEffect(() => {
+        const pending = localStorage.getItem('pendingDeposit');
+        if (pending) {
+            const { amount, date } = JSON.parse(pending);
+            setAmount(amount);
+            setDate(date);
+            setShowDetails(true);
+        }
+    }, []);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.put(
+                "http://localhost:8000/api/v1/addbalance",
+                { amount: Number(amount), date },
+                { withCredentials: true }
+            );
+            console.log("Response:", response.data);
+
+            // Save to localStorage
+            localStorage.setItem('pendingDeposit', JSON.stringify({ amount, date }));
+            setShowDetails(true);
+        } catch (error) {
+            console.error("Error adding balance:", error);
+            alert(error.response?.data?.message || "Failed to add balance.");
+        }
+    };
 
     const handleBack = () => {
-        navigate('/dashboard',{
-            state:{amount,date}//pass the values to the dashboard
-        });
+        navigate('/dashboard', { state: { amount, date } });
+    };
+
+    // Optionally clear pending after manual action
+    const clearPending = () => {
+        localStorage.removeItem('pendingDeposit');
+        setShowDetails(false);
+        setAmount('');
+        setDate('');
     };
 
     return (
-        <div className="w-full max-w-md mx-auto mt-4 sm:mt-8 md:mt-10 p-4 sm:p-6 bg-white rounded-xl shadow-lg border border-gray-200">
-            <h2 className="text-xl sm:text-2xl text-black font-bold text-center mb-4 sm:mb-6">Add Balance</h2>
-            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+        <div className="w-full max-w-md mx-auto mt-10 p-6 sm:p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
+            <h2 className="text-2xl sm:text-3xl font-bold text-center text-neutral-800 mb-6">
+                💸 Add Balance
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label htmlFor="amount" className="block text-sm sm:text-base font-semibold mb-1 text-gray-700">Amount</label> 
+                    <label htmlFor="amount" className="block text-sm font-medium text-gray-600 mb-1">
+                        Amount
+                    </label>
                     <input
                         type="number"
                         id="amount"
@@ -45,40 +70,50 @@ const ADDBalance = () => {
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder="Enter amount"
                         required
-                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 placeholder-gray-400 bg-white text-sm sm:text-base"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700 placeholder-gray-400 bg-white transition"
                     />
                 </div>
                 <div>
-                    <label htmlFor="date" className="block text-sm sm:text-base font-semibold mb-1 text-gray-700">Date</label>
+                    <label htmlFor="date" className="block text-sm font-medium text-gray-600 mb-1">
+                        Date
+                    </label>
                     <input
                         type="date"
                         id="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                         required
-                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-white text-sm sm:text-base"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700 bg-white transition"
                     />
                 </div>
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3">
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 sm:py-2.5 rounded-md transition-colors text-sm sm:text-base"
+                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
                     >
+                        <AiOutlinePlusCircle size={20} />
                         Submit
                     </button>
                     <button
                         type="button"
                         onClick={handleBack}
-                        className="w-full bg-gray-300 hover:bg-gray-400 text-black font-semibold py-2 sm:py-2.5 rounded-md transition-colors text-sm sm:text-base"
+                        className="w-full bg-gray-200 hover:bg-gray-300 text-black font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
                     >
+                        <MdArrowBack size={20} />
                         Back to Dashboard
                     </button>
                 </div>
             </form>
 
-            {showDetails && (
-                <div className="mt-4 sm:mt-6">
-                    <BalanceDetails amount={amount} date={date} />
+            {showDetails && Number(amount) > 0 && (
+                <div className="relative">
+                    <PendingCard amount={amount} date={date} />
+                    <button
+                        onClick={clearPending}
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs hover:bg-red-600"
+                    >
+                        Clear
+                    </button>
                 </div>
             )}
         </div>

@@ -73,7 +73,7 @@ const UserDashBoard = () => {
             >
               Border List
             </button>
-                        <button
+            <button
               type="button"
               onClick={() => navigate('/bazarlist')}
               className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 cursor-pointer text-sm sm:text-base"
@@ -114,6 +114,13 @@ const UserDashBoard = () => {
               className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 cursor-pointer text-sm sm:text-base"
             >
               ManagerDashBoard
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/pendinglist')}
+              className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 cursor-pointer text-sm sm:text-base"
+            >
+              PendingList
             </button>
           </div>
         </div>

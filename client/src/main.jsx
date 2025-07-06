@@ -19,6 +19,7 @@ import BazarList from './Pages/BazarList/BazarList.jsx';
 import AddBazarList from './Pages/BazarList/AddBazarList.jsx';
 import MonthlyMealTable from './Meal/MealMonth.jsx';
 import TotalMealsDashboard from './components/ManagerDashBoard.jsx';
+import PendingDepositList from './components/PendingList.jsx';
 
 
 
@@ -43,8 +44,7 @@ createRoot(document.getElementById('root')).render(
         <Route path='bazarlist' element = {<BazarList/>} />
         <Route path='addbazarlist' element = {<AddBazarList/>} />
         <Route path='managerdashbaord' element = {<TotalMealsDashboard/>}/>
-
-
+        <Route path='pendinglist' element = {<PendingDepositList/>}/>
       </Route>
     </Routes>
   </BrowserRouter>

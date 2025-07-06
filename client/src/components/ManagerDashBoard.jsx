@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import { GiTakeMyMoney } from "react-icons/gi";
 import toast from "react-hot-toast";
+import NotificationList from './Notifications';
 
 // Helper icons for type
 const getMealIcon = (type) => {
@@ -217,6 +218,7 @@ const TotalMealsDashboard = () => {
           </div>
         </div>
       </div>
+      <div className="p-4 flex flex-col gap-6"> <NotificationList/> </div>
     </div>
   );
 };

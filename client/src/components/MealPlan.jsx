@@ -157,7 +157,7 @@ const tomorrowFormatted = tomorrow.toLocaleDateString(undefined, options);
                   htmlFor="breakfast"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Breakfast
+                  সকাল
                 </label>
                 <input
                   id="breakfast"
@@ -178,7 +178,7 @@ const tomorrowFormatted = tomorrow.toLocaleDateString(undefined, options);
                   htmlFor="lunch"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Lunch
+                  দুপুর
                 </label>
                 <input
                   id="lunch"
@@ -199,7 +199,7 @@ const tomorrowFormatted = tomorrow.toLocaleDateString(undefined, options);
                   htmlFor="dinner"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Dinner
+                  রাত
                 </label>
                 <input
                   id="dinner"

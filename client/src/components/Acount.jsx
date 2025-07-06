@@ -10,6 +10,7 @@ import { GiWallet, GiMeal } from "react-icons/gi";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { PiChartDonutFill } from "react-icons/pi";
 import { getMealPlanByMonth } from "../api/Api";
+import { GiMoneyStack } from "react-icons/gi";
 const Acount = () => {
     const navigate = useNavigate();
     const [totalMeal, setTotalMeal] = useState(0);
@@ -129,7 +130,7 @@ const Acount = () => {
                                 group cursor-pointer
                             "
                     >
-                        <h1>ADD Balance</h1>
+                        <h1><GiMoneyStack />Add Balance</h1>
                     </button>
                 </div>
             </div>

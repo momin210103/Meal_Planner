@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const BorderList = () => {
   const [borders, setBorders] = useState([]); // State to store the border list
@@ -15,6 +17,7 @@ const BorderList = () => {
     axios.get('/api/v1/users/register')
       .then((response) => {
         setBorders(response.data);
+        console.log(response.data[0]._id);
         setLoading(false);
       })
       .catch((error) => {
@@ -44,19 +47,76 @@ const BorderList = () => {
     return matchesSearch;
   });
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this border?')) {
-      // Add your delete API call here
-      console.log('Deleting border with id:', id);
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You are about to Delete this user.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Delete!"
+    });
+    if(result.isConfirmed){
+      try {
+        await axios.delete(`http://localhost:8000/api/v1/deleteuser/${id}`,{withCredentials:true})
+        toast.success("Deleted successfully");
+        
+      } catch (error) {
+        console.error("Faild to delete",error);
+        toast.error("Error");
+      }
+
     }
   };
 
-  const handleSetManager = (id) => {
-    if (window.confirm('Are you sure you want to set this border as manager?')) {
-      // Add your set manager API call here
-      console.log('Setting border as manager with id:', id);
+  const handleSetManager = async (id) => {
+
+    const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You are about to promote this user to manager.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, promote!"
+    });
+    if(result.isConfirmed){
+      try {
+        await axios.patch(`http://localhost:8000/api/v1/setmanager/${id}`,{},{withCredentials:true})
+        toast.success("User Set as a Manager");
+        
+      } catch (error) {
+        console.error("Failed to promote",error);
+        toast.error("Failed");
+      }
+
     }
   };
+
+  const handleRemoveManager = async (id) =>{
+    const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You are about to Remove this user from  manager.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Remove!"
+    });
+    if(result.isConfirmed){
+      try {
+        await axios.patch(`http://localhost:8000/api/v1/removemanager/${id}`,{},{withCredentials:true})
+        toast.success("User Set as a Manager");
+        
+      } catch (error) {
+        console.error("Failed to promote",error);
+        toast.error("Failed");
+      }
+
+    }
+
+  }
 
   if (loading) {
     return <div className="text-center py-8">Loading...</div>;
@@ -186,9 +246,9 @@ const BorderList = () => {
                       {filteredBorders.map((border, index) => (
                         <tr key={`border-${border.id || index}`} className={`border-b dark:border-gray-700 ${index % 2 === 0 ? 'bg-[#00b4c5] text-white font-bold' : 'bg-[#5ba300] text-black font-bold'}`}>
                           <td key={`sl-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3">{index + 1}</td>
-                          <th key={`name-${border.id || index}`} scope="row" className="px-3 py-2 sm:px-4 sm:py-3 font-medium">
+                          <td key={`name-${border.id || index}`} scope="row" className="px-3 py-2 sm:px-4 sm:py-3 font-medium">
                             {border.fullName}
-                          </th>
+                          </td>
                           <td key={`email-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3">{border.email}</td>
                           <td key={`phone-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3">{border.phoneNumber || 'N/A'}</td>
                           <td key={`role-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3">{border.Role}</td>
@@ -196,16 +256,27 @@ const BorderList = () => {
                           <td key={`amount-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3">{border.amount || '0'} Tk</td>
                           <td key={`due-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3">{border.dueAmount || '0'} Tk</td>
                           <td key={`actions-${border.id || index}`} className="px-3 py-2 sm:px-4 sm:py-3 flex items-center justify-end space-x-2">
-                            <button 
+                            {/* Conditional Rendaring */}
+                            {
+                              border.Role === "User" ? (<button 
                               key={`manager-${border.id || index}`}
-                              onClick={() => handleSetManager(border.id)} 
+                              onClick={() => handleSetManager(border._id)} 
                               className="px-2 sm:px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 cursor-pointer"
                             >
                               Set As Manager
-                            </button>
+                            </button>)
+                              : border.Role === "Manager" ? (<button 
+                              key={`manager-${border.id || index}`}
+                              onClick={() => handleRemoveManager(border._id)} 
+                              className="px-2 sm:px-3 py-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 cursor-pointer"
+                            >
+                              Remove Manager
+                            </button> ) 
+                              : null
+                            }
                             <button 
                               key={`delete-${border.id || index}`}
-                              onClick={() => handleDelete(border.id)} 
+                              onClick={() => handleDelete(border._id)} 
                               className="px-2 sm:px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 cursor-pointer"
                             >
                               Delete

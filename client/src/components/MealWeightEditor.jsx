@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const MealWeightEditor = ({ onSave }) => {
-  const getStoredWeights = () => {
-    const stored = localStorage.getItem("mealWeights");
-    return stored ? JSON.parse(stored) : { breakfast: 1, lunch: 1, dinner: 1 };
-  };
-
-  const [weights, setWeights] = useState(() => getStoredWeights());
+  const [weights, setWeights] = useState({ breakfast: 1, lunch: 1, dinner: 1 });
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const fetchWeights = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/v1/mealplan/weight",
+          { withCredentials: true }
+        );
+        const serverWeights = res.data; // Ensure your API returns { breakfast, lunch, dinner }
+        setWeights(serverWeights);
+        localStorage.setItem("mealWeights", JSON.stringify(serverWeights));
+      } catch (error) {
+        console.error("Failed to fetch weights, loading from localStorage", error);
+        const stored = localStorage.getItem("mealWeights");
+        if (stored) {
+          setWeights(JSON.parse(stored));
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWeights();
+  }, []);
 
   const handleChange = (type, value) => {
     const newWeights = {
@@ -16,7 +37,6 @@ const MealWeightEditor = ({ onSave }) => {
       [type]: parseFloat(value) || 0,
     };
     setWeights(newWeights);
-    localStorage.setItem("mealWeights", JSON.stringify(newWeights));
   };
 
   const handleSave = async () => {
@@ -29,15 +49,28 @@ const MealWeightEditor = ({ onSave }) => {
           { withCredentials: true }
         );
       }
+      localStorage.setItem("mealWeights", JSON.stringify(weights)); // ✅ Write after success
       if (onSave) onSave(weights);
-      alert("✅ Meal weights saved successfully!");
+      toast.success("✅ Meal weights saved successfully!");
     } catch (error) {
       console.error("❌ Failed to save weights:", error);
-      alert("Error saving weights");
+      if (error.response?.status === 403) {
+        toast.error("Only Manager Can Set Weight");
+      } else {
+        toast.error("Failed to save weights, try again.");
+      }
     } finally {
       setSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="text-center text-gray-500 py-10">
+        Loading meal weights...
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 space-y-6">

@@ -20,6 +20,7 @@ import AddBazarList from './Pages/BazarList/AddBazarList.jsx';
 import MonthlyMealTable from './Meal/MealMonth.jsx';
 import TotalMealsDashboard from './components/ManagerDashBoard.jsx';
 import PendingDepositList from './components/PendingList.jsx';
+import ResetPassword from './Pages/login/ResetPassword.jsx';
 
 
 
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="about" element={<About/>} />
         <Route path="contact" element={<div>Contact</div>} />
         <Route path="login" element={<LoginPage/>} />
+        <Route path="forgot-password" element={<ResetPassword/>} />
         <Route path="signup" element={<SignupPage/>} />
         <Route path="dashboard" element={<UserDashBoard/>} />
         <Route path="adminlogin" element={<AdminLogin/>} />

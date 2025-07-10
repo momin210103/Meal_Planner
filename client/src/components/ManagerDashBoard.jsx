@@ -11,9 +11,7 @@ import {
 } from "react-icons/fi";
 import { GiTakeMyMoney } from "react-icons/gi";
 import toast from "react-hot-toast";
-import NotificationList from './Notifications';
 
-// Helper icons for type
 const getMealIcon = (type) => {
   switch (type.toLowerCase()) {
     case "breakfast":
@@ -33,8 +31,6 @@ const TotalMealsDashboard = () => {
   const [fetchTime, setFetchTime] = useState(null);
   const [loading, setLoading] = useState(true);
   const [latestDate, setLatestDate] = useState(null);
-
-  // New states
   const [totalCost, setTotalCost] = useState(null);
   const [totalBalance, setTotalBalance] = useState(null);
   const [mealRate, setMealRate] = useState(null);
@@ -46,59 +42,35 @@ const TotalMealsDashboard = () => {
         const now = new Date();
         const month = now.toISOString().slice(0, 7);
 
-        // Fetch monthly meal data
-        const monthRes = await axios.get(
-          `http://localhost:8000/api/v1/totalmealsofmonth/${month}`,
-          { withCredentials: true }
-        );
+        const monthRes = await axios.get(`http://localhost:8000/api/v1/totalmealsofmonth/${month}`, { withCredentials: true });
         setMonthData(monthRes.data.data);
 
-        // Fetch latest meal plan date
-        const resLatestDate = await axios.get(
-          "http://localhost:8000/api/v1/mealplan/latest",
-          { withCredentials: true }
-        );
+        const resLatestDate = await axios.get("http://localhost:8000/api/v1/mealplan/latest", { withCredentials: true });
         const todayStr = resLatestDate.data.data.date;
         const formattedDate = new Date(todayStr).toISOString().split("T")[0];
         setLatestDate(formattedDate);
 
-        // Fetch today's meal weights
-        const res = await axios.get(
-          `http://localhost:8000/api/v1/totalweights/${todayStr}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`http://localhost:8000/api/v1/totalweights/${todayStr}`, { withCredentials: true });
         setMealData({ ...res.data.data, date: todayStr });
         setFetchTime(new Date().toLocaleTimeString());
 
-        // Fetch total cost
-        const costRes = await axios.get(
-          `http://localhost:8000/api/v1/bazarlist?month=${month}`,
-          { withCredentials: true }
-        );
+        const costRes = await axios.get(`http://localhost:8000/api/v1/bazarlist?month=${month}`, { withCredentials: true });
         setTotalCost(costRes.data.totalAmount);
 
-        // Fetch total balance
-        const balanceRes = await axios.get(
-          `http://localhost:8000/api/v1/allusercurrentbalance?month=${month}`,
-          { withCredentials: true }
-        );
-        setTotalBalance(balanceRes.data.totalCurrentBalance);
-        // console.log(balanceRes.totalCurrentBalance);
-        // console.log(costRes.data.totalAmount);
+        const balanceRes = await axios.get(`http://localhost:8000/api/v1/allusercurrentbalance?month=${month}`, { withCredentials: true });
+        setTotalBalance(balanceRes.data.totalDeposit);
 
-        // Calculate meal rate
-        const totalCost = costRes.data.totalAmount;
-        const totalWeight = monthRes.data.data.totalWeight
-        if (totalCost && totalWeight) {
-          const rate = (
-            totalCost / totalWeight
-          ).toFixed(2);
+        const totalCostVal = costRes.data.totalAmount;
+        const totalDeposit = balanceRes.data.totalDeposit;
+        const totalWeight = monthRes.data.data.totalWeight;
+
+        if (totalCostVal && totalWeight) {
+          const rate = (totalCostVal / totalWeight).toFixed(2);
           setMealRate(rate);
         }
-        //calculate current balance
-        const totalDeposit = balanceRes.data.totalCurrentBalance
-        if(totalCost && totalDeposit){
-          const currentBalance = (totalDeposit - totalCost)
+
+        if (totalCostVal && totalDeposit) {
+          const currentBalance = totalDeposit - totalCostVal;
           setCurrentBalance(currentBalance);
         }
       } catch (error) {
@@ -121,104 +93,68 @@ const TotalMealsDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-6 px-4">
+      <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* Monthly Summary */}
-        {monthData && (
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
-            <h2 className="text-xl font-semibold mb-4 text-indigo-700">
-              📊 Total Meals This Month
-            </h2>
-            <p className="text-gray-700 mb-2">
-              <span className="font-bold">Total Weight:</span>{" "}
-              {monthData.totalWeight} 
-            </p>
-            <div className="space-y-1">
-              {Object.entries(monthData.byType).map(([type, weight], idx) => (
-                <p key={idx} className="text-gray-600">
-                  {getMealIcon(type)}{" "}
-                  <span className="capitalize">{type}:</span> {weight} 
-                </p>
-              ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {monthData && (
+            <div className="bg-white p-5 rounded-2xl shadow">
+              <h2 className="text-lg font-semibold mb-2 text-indigo-700">📊 Total Meals This Month</h2>
+              <p className="text-gray-700 mb-1"><span className="font-bold">Total Weight:</span> {monthData.totalWeight}</p>
+              <div className="space-y-0.5">
+                {Object.entries(monthData.byType).map(([type, weight], idx) => (
+                  <p key={idx} className="text-gray-600">{getMealIcon(type)} <span className="capitalize">{type}:</span> {weight}</p>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Daily Summary */}
-        {mealData && (
-          <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-md space-y-4">
-            <h2 className="text-2xl font-bold text-center text-indigo-700">
-              🍽️ Total Meal Weights
-            </h2>
-            <p className="text-center text-gray-600">
-              Date: {latestDate}
-            </p>
-            <p className="text-center text-gray-500 text-sm">
-              Fetched at: {fetchTime}
-            </p>
-
-            <div className="space-y-2 text-gray-700">
-              <p>
-                <span className="font-semibold">Total Weight:</span> {mealData.totalWeight} 
-              </p>
-              <p>
-                {<FiCoffee className="inline mr-1 text-amber-500" />} 
-                <span className="font-semibold">Breakfast:</span> {mealData.breakfastWeight} 
-              </p>
-              <p>
-                {<FiSun className="inline mr-1 text-orange-500" />} 
-                <span className="font-semibold">Lunch:</span> {mealData.lunchWeight} 
-              </p>
-              <p>
-                {<FiMoon className="inline mr-1 text-indigo-500" />} 
-                <span className="font-semibold">Dinner:</span> {mealData.dinnerWeight} 
-              </p>
+          {mealData && (
+            <div className="bg-white p-5 rounded-2xl shadow">
+              <h2 className="text-lg font-semibold mb-2 text-indigo-700">🍽️ Total Meal Weights</h2>
+              <p className="text-gray-700 mb-1">Date: {latestDate}</p>
+              <p className="text-gray-500 text-sm mb-2">Fetched at: {fetchTime}</p>
+              <div className="space-y-0.5 text-gray-700">
+                <p><span className="font-semibold">Total Weight:</span> {mealData.totalWeight}</p>
+                <p>{<FiCoffee className="inline mr-1 text-amber-500" />} <span className="font-semibold">Breakfast:</span> {mealData.breakfastWeight}</p>
+                <p>{<FiSun className="inline mr-1 text-orange-500" />} <span className="font-semibold">Lunch:</span> {mealData.lunchWeight}</p>
+                <p>{<FiMoon className="inline mr-1 text-indigo-500" />} <span className="font-semibold">Dinner:</span> {mealData.dinnerWeight}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {/* Additional Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-          {/* Meal Rate */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiPieChart className="mx-auto text-[#f57600] text-3xl" />
-            <h3 className="text-lg font-semibold mt-2">Meal Rate</h3>
-            <p className="text-xl font-bold">
-              {mealRate ? `${mealRate} Tk/meal` : "--"}
-            </p>
+            <h3 className="text-lg font-semibold mt-1">Meal Rate</h3>
+            <p className="text-xl font-bold">{mealRate ? `${mealRate} Tk/meal` : "--"}</p>
             <p className="text-gray-500 text-sm">This Month</p>
           </div>
 
-          {/* Total Balance */}
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiTrendingUp className="mx-auto text-green-600 text-3xl" />
-            <h3 className="text-lg font-semibold mt-2">Total Deposit</h3>
-            <p className="text-xl font-bold">
-              {totalBalance !== null ? `${totalBalance} Tk` : "--"}
-            </p>
-           <p className="text-gray-500 text-sm">This Month</p>
+            <h3 className="text-lg font-semibold mt-1">Total Deposit</h3>
+            <p className="text-xl font-bold">{totalBalance !== null ? `${totalBalance} Tk` : "--"}</p>
+            <p className="text-gray-500 text-sm">This Month</p>
           </div>
 
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <GiTakeMyMoney className="mx-auto text-[#5ba300] text-3xl" />
-            <h3 className="text-lg font-semibold mt-2">Current Balance</h3>
-            <p className="text-xl font-bold">{currentBalance !==null ? `${currentBalance}Tk` : "--"}</p>
-           <p className="text-gray-500 text-sm">This Month</p>
+            <h3 className="text-lg font-semibold mt-1">Current Balance</h3>
+            <p className="text-xl font-bold">{currentBalance !== null ? `${currentBalance} Tk` : "--"}</p>
+            <p className="text-gray-500 text-sm">This Month</p>
           </div>
 
-          {/* Total Cost */}
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiDollarSign className="mx-auto text-indigo-600 text-3xl" />
-            <h3 className="text-lg font-semibold mt-2">Total Cost</h3>
-            <p className="text-xl font-bold">
-              {totalCost !== null ? `${totalCost} Tk` : "--"}
-            </p>
+            <h3 className="text-lg font-semibold mt-1">Total Cost</h3>
+            <p className="text-xl font-bold">{totalCost !== null ? `${totalCost} Tk` : "--"}</p>
             <p className="text-gray-500 text-sm">This Month</p>
           </div>
         </div>
+
       </div>
-      <div className="p-4 flex flex-col gap-6"> <NotificationList/> </div>
     </div>
   );
 };

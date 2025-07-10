@@ -4,11 +4,14 @@ import PendingCard from './BalanceDetails';
 import axios from 'axios';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { MdArrowBack } from 'react-icons/md';
+import toast from 'react-hot-toast';
+import ConfirmModal from './ConfirmModal';
 
 const ADDBalance = () => {
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState('');
-    const [showDetails, setShowDetails] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
 
     // Load pending state from localStorage on mount
@@ -18,12 +21,10 @@ const ADDBalance = () => {
             const { amount, date } = JSON.parse(pending);
             setAmount(amount);
             setDate(date);
-            setShowDetails(true);
+            // setShowDetails(true);
         }
     }, []);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleConfirmAddBalance = async () => {
         try {
             const response = await axios.put(
                 "http://localhost:8000/api/v1/addbalance",
@@ -31,14 +32,21 @@ const ADDBalance = () => {
                 { withCredentials: true }
             );
             console.log("Response:", response.data);
+            toast.success("Your Balance Add successfully wait for Manager Approved")
 
             // Save to localStorage
-            localStorage.setItem('pendingDeposit', JSON.stringify({ amount, date }));
-            setShowDetails(true);
+            // localStorage.setItem('pendingDeposit', JSON.stringify({ amount, date }));
+            // setShowDetails(true);
         } catch (error) {
             console.error("Error adding balance:", error);
             alert(error.response?.data?.message || "Failed to add balance.");
         }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsModalOpen(true);
+
     };
 
     const handleBack = () => {
@@ -46,12 +54,12 @@ const ADDBalance = () => {
     };
 
     // Optionally clear pending after manual action
-    const clearPending = () => {
-        localStorage.removeItem('pendingDeposit');
-        setShowDetails(false);
-        setAmount('');
-        setDate('');
-    };
+    // const clearPending = () => {
+    //     localStorage.removeItem('pendingDeposit');
+    //     setShowDetails(false);
+    //     setAmount('');
+    //     setDate('');
+    // };
 
     return (
         <div className="w-full max-w-md mx-auto mt-10 p-6 sm:p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
@@ -104,8 +112,15 @@ const ADDBalance = () => {
                     </button>
                 </div>
             </form>
+            <ConfirmModal
+                isOpen={isModalOpen}
+                setIsOpen={setIsModalOpen}
+                title="Confirm Add Balance"
+                description={`Add ₹${amount} for ${date}?`}
+                onConfirm={handleConfirmAddBalance}
+            />
 
-            {showDetails && Number(amount) > 0 && (
+            {/* {showDetails && Number(amount) > 0 && (
                 <div className="relative">
                     <PendingCard amount={amount} date={date} />
                     <button
@@ -115,7 +130,7 @@ const ADDBalance = () => {
                         Clear
                     </button>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

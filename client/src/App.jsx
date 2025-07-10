@@ -18,7 +18,7 @@ const App = () => {
         <nav><Nabvar/></nav>
       )}
    
-   <main className='min-h-screen'><Outlet/></main>
+   <main className='min-h-screen pt-16'><Outlet/></main>
    <Toaster position='top-center' reverseOrder={false} />
    {/* Show Footer only if not in hidden paths */}
    {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router"; // Corrected import
 import { FaShopify, FaBars, FaTimes } from "react-icons/fa";
+import logo from '../assets/Logo.png'
 
 const navItems = [
   { path: "/", label: "Home" },
@@ -41,8 +42,9 @@ const Navbar = () => {
     <header className=" fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-lg rounded-2xl">
       <nav className="max-w-screen-2xl container mx-auto flex justify-between items-center py-4 px-6">
         <Link to="/" className="font-bold text-2xl text-white">
-          MyLogo
+          <img src={logo} alt="MealPlanner Logo" className="h-15 w-15 rounded-full hover:scale-105 transition-transform"/>
         </Link>
+        
 
         {/* Hamburger menu */}
         <div onClick={toggle} className="md:hidden text-xl cursor-pointer text-white">

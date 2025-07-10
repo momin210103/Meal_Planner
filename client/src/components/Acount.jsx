@@ -107,7 +107,7 @@ const Acount = () => {
                 <div className="bg-white p-4 rounded-xl shadow text-center">
                     <PiChartDonutFill className="mx-auto text-[#89ce00] text-3xl" />
                     <h3 className="text-lg font-semibold mt-2">Due Balance</h3>
-                    <p className="text-xl font-bold"><p className="text-xl font-bold">{dueBalance}</p></p>
+                    <p className="text-xl font-bold">{dueBalance}</p>
                     <p className="text-gray-500 text-sm">This Month</p>
                 </div>
                 <div className="col-span-1 sm:col-span-2 flex justify-center mt-4">

@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  FiCheckCircle,
-  FiAlertCircle,
-  FiSunrise,
-  FiSun,
-  FiMoon,
-  FiArrowLeft,
-  FiClock,
-} from "react-icons/fi";
+import { FiCheckCircle, FiAlertCircle, FiSunrise, FiSun, FiMoon, FiArrowLeft, FiClock } from "react-icons/fi";
 import MealWeightEditor from "./MealWeightEditor";
-
 import { useNavigate } from "react-router";
+import TimeSetter from "./TimeSetter";
 
 const MealPlan = () => {
   const navigate = useNavigate();
@@ -23,7 +15,7 @@ const MealPlan = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({ type: null, message: "" });
-  // const [date,setDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,11 +29,7 @@ const MealPlan = () => {
   };
 
   const handleSubmit = async () => {
-    if (
-      !mealPlan.breakfast.name &&
-      !mealPlan.lunch.name &&
-      !mealPlan.dinner.name
-    ) {
+    if (!mealPlan.breakfast.name && !mealPlan.lunch.name && !mealPlan.dinner.name) {
       setStatus({ type: "error", message: "Please enter at least one meal" });
       return;
     }
@@ -50,21 +38,23 @@ const MealPlan = () => {
     setStatus({ type: null, message: "" });
 
     try {
-      // Proper tomorrow handling with timezone adjustment
-      const now = new Date();
-      now.setDate(now.getDate() + 1);
-      now.setHours(0, 0, 0, 0);
-      const offset = now.getTimezoneOffset() * 60000;
-      const adjustedDate = new Date(now.getTime() - offset);
-      const formattedDate = adjustedDate.toISOString().split("T")[0];
+      // const now = new Date();
+      // now.setDate(now.getDate() + 1);
+      // now.setHours(0, 0, 0, 0);
+      // const offset = now.getTimezoneOffset() * 60000;
+      // const adjustedDate = new Date(now.getTime() - offset);
+      // const formattedDate = adjustedDate.toISOString().split("T")[0];
 
-      // Create meals array
+      const formattedDate = selectedDate;
+      if(!formattedDate){
+        setStatus({ type: "error", message: "Please select a date before saving." });
+        setIsSubmitting(false);
+  return;
+      }
+
       const mealsArray = [];
       if (mealPlan.breakfast.name.trim()) {
-        mealsArray.push({
-          type: "breakfast",
-          name: mealPlan.breakfast.name.trim(),
-        });
+        mealsArray.push({ type: "breakfast", name: mealPlan.breakfast.name.trim() });
       }
       if (mealPlan.lunch.name.trim()) {
         mealsArray.push({ type: "lunch", name: mealPlan.lunch.name.trim() });
@@ -73,162 +63,65 @@ const MealPlan = () => {
         mealsArray.push({ type: "dinner", name: mealPlan.dinner.name.trim() });
       }
 
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/mealplan",
-        {
-          date: formattedDate,
-          meals: mealsArray,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("http://localhost:8000/api/v1/mealplan", {
+        date: formattedDate,
+        meals: mealsArray,
+      }, { withCredentials: true });
 
-      setStatus({
-        type: "success",
-        message: response.data.message || "Meal plan saved successfully!",
-      });
-
-      setMealPlan({
-        breakfast: { name: "" },
-        lunch: { name: "" },
-        dinner: { name: "" },
-      });
+      setStatus({ type: "success", message: response.data.message || "Meal plan saved successfully!" });
+      setMealPlan({ breakfast: { name: "" }, lunch: { name: "" }, dinner: { name: "" } });
     } catch (err) {
-      console.error("Error saving meal plan:", err);
-      if (err.response?.status === 403) {
-        setStatus({
-          type: "error",
-          message:
-            "Access denied. Only managers can create or update meal plans.",
-        });
-      } else if (err.response?.data?.message) {
-        setStatus({
-          type: "error",
-          message: err.response.data.message,
-        });
-      } else {
-        setStatus({
-          type: "error",
-          message: "Failed to save meal plan. Please try again.",
-        });
-      }
+      setStatus({ type: "error", message: err.response?.data?.message || "Failed to save meal plan. Please try again." });
     } finally {
       setIsSubmitting(false);
     }
   };
-  // Get tomorrow's date nicely formatted
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-const options = { year: "numeric", month: "short", day: "numeric" };
-const tomorrowFormatted = tomorrow.toLocaleDateString(undefined, options);
 
+  // const tomorrow = new Date();
+  // tomorrow.setDate(tomorrow.getDate() + 1);
+  // const tomorrowFormatted = tomorrow.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
-        >
-          <FiArrowLeft className="mr-2" />
-          <span className="text-sm sm:text-base font-medium">Back</span>
+        <button onClick={() => navigate(-1)} className="flex items-center text-gray-600 hover:text-gray-900">
+          <FiArrowLeft className="mr-2" /> <span>Back</span>
         </button>
 
         <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
-          <h2 className="text-xl sm:text-2xl font-bold mb-2 text-gray-800 flex items-center space-x-2">
-  <span>Set Meal</span>
-  <FiClock className="text-gray-500" />
-  <span className="text-sm sm:text-base text-gray-500">{tomorrowFormatted}</span>
-</h2>
-
-
-          <div className="space-y-4 sm:space-y-6">
-            {/* Time Selection Section */}
-
-            <div className="flex items-start space-x-3">
-              <FiSunrise className="text-yellow-500 text-xl mt-2" />
-              <div className="flex-1">
-                <label
-                  htmlFor="breakfast"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  সকাল
-                </label>
-                <input
-                  id="breakfast"
-                  name="breakfast"
-                  type="text"
-                  placeholder="What's for breakfast?"
-                  value={mealPlan.breakfast.name}
-                  onChange={handleChange}
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base placeholder-black text-black"
-                />
-              </div>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 flex items-center space-x-2">
+            <span>Set Meal Plan</span>
+            {/* <FiClock className="text-gray-500" /> */}
+            <div>
+              <input
+    type="date"
+    value={selectedDate}
+    onChange={(e) => setSelectedDate(e.target.value)}
+    className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
             </div>
+            {/* <span className="text-sm text-gray-500">{tomorrowFormatted}</span> */}
+          </h2>
 
-            <div className="flex items-start space-x-3">
-              <FiSun className="text-orange-500 text-xl mt-2" />
-              <div className="flex-1">
-                <label
-                  htmlFor="lunch"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  দুপুর
-                </label>
-                <input
-                  id="lunch"
-                  name="lunch"
-                  type="text"
-                  placeholder="What's for lunch?"
-                  value={mealPlan.lunch.name}
-                  onChange={handleChange}
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base placeholder-black text-black"
-                />
-              </div>
+          {['breakfast', 'lunch', 'dinner'].map((meal) => (
+            <div key={meal} className="mb-4">
+              <label className="block mb-1 font-medium capitalize">{meal}</label>
+              <input
+                type="text"
+                name={meal}
+                value={mealPlan[meal].name}
+                onChange={handleChange}
+                placeholder={`What's for ${meal}?`}
+                className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
-
-            <div className="flex items-start space-x-3">
-              <FiMoon className="text-indigo-500 text-xl mt-2" />
-              <div className="flex-1">
-                <label
-                  htmlFor="dinner"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  রাত
-                </label>
-                <input
-                  id="dinner"
-                  name="dinner"
-                  type="text"
-                  placeholder="What's for dinner?"
-                  value={mealPlan.dinner.name}
-                  onChange={handleChange}
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base placeholder-black text-black"
-                />
-              </div>
-            </div>
-          </div>
+          ))}
 
           {status.type && (
-            <div
-              className={`mt-4 p-3 rounded-md ${
-                status.type === "success"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
-              }`}
-            >
-              <div className="flex items-center text-sm sm:text-base">
-                {status.type === "success" ? (
-                  <FiCheckCircle className="mr-2 flex-shrink-0" />
-                ) : (
-                  <FiAlertCircle className="mr-2 flex-shrink-0" />
-                )}
-                {status.message}
+            <div className={`mt-4 p-3 rounded ${status.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+              <div className="flex items-center">
+                {status.type === 'success' ? <FiCheckCircle className="mr-2" /> : <FiAlertCircle className="mr-2" />}
+                <span>{status.message}</span>
               </div>
             </div>
           )}
@@ -236,16 +129,20 @@ const tomorrowFormatted = tomorrow.toLocaleDateString(undefined, options);
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className={`mt-6 w-full py-2 sm:py-3 px-4 rounded-md font-medium transition-all duration-200 ${
-              isSubmitting
-                ? "bg-blue-400 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700 active:scale-[0.98]"
-            } text-white shadow-md text-sm sm:text-base`}
+            className={`mt-4 w-full p-2 rounded text-white font-medium ${isSubmitting ? 'bg-blue-400' : 'bg-green-600 hover:bg-green-700'}`}
           >
-            {isSubmitting ? "Saving..." : "Save Meal Plan"}
+            {isSubmitting ? 'Saving...' : 'Save Meal Plan'}
           </button>
         </div>
-        <MealWeightEditor />
+
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1 bg-white rounded-lg shadow p-4 sm:p-6 lg:p-8">
+            <MealWeightEditor />
+          </div>
+          <div className="flex-1 bg-white rounded-lg shadow p-4 sm:p-6 lg:p-8">
+            <TimeSetter />
+          </div>
+        </div>
       </div>
     </div>
   );

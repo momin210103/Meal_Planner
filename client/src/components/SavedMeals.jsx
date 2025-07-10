@@ -9,12 +9,15 @@ import {
 } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 
+
 const SavedMeals = () => {
   const [savedMeals, setSavedMeals] = useState([]);
   const [mealDate, setMealDate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [globalTimer, setGlobalTimer] = useState(null);
   const [checkedMeals, setCheckedMeals] = useState({});
+  const [timeLeft, setTimeLeft] = useState("");
   const [submittedMeals, setSubmittedMeals] = useState(() => {
     try {
       const stored = localStorage.getItem("submittedMeals");
@@ -26,6 +29,7 @@ const SavedMeals = () => {
 
   useEffect(() => {
     fetchSavedMeals();
+    fetchGlobalTimer();
   }, []);
 
   useEffect(() => {
@@ -46,6 +50,16 @@ const SavedMeals = () => {
       console.error("Error fetching meals:", error);
       setError("Failed to fetch saved meals");
       setLoading(false);
+    }
+  };
+
+  const fetchGlobalTimer = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/v1/globaltimer",{withCredentials:true});
+      console.log("Fetched global timer:", response.data.data);
+      setGlobalTimer(response.data.data);
+    } catch (error) {
+      console.error("Error fetching global timer:", error);
     }
   };
 
@@ -82,7 +96,9 @@ const SavedMeals = () => {
         "http://localhost:8000/api/v1/dailymeal",
         {
           meals: selectedMeals,
-          date: mealDate ? mealDate.split("T")[0] : new Date().toISOString().split("T")[0],
+          date: mealDate
+            ? mealDate.split("T")[0]
+            : new Date().toISOString().split("T")[0],
         },
         { withCredentials: true }
       );
@@ -96,6 +112,36 @@ const SavedMeals = () => {
       toast.error("Submission failed. Check console for details.");
     }
   };
+
+useEffect(() => {
+  if (!globalTimer) return;
+
+  const calculateTimeLeft = () => {
+    const [endHours, endMinutes] = globalTimer.end.split(":").map(Number);
+    const now = new Date();
+    const endTime = new Date();
+    endTime.setHours(endHours, endMinutes, 0, 0);
+
+    const diff = endTime - now;
+    if (diff > 0) {
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      setTimeLeft(
+        `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      );
+    } else {
+      setTimeLeft("00:00:00");
+    }
+  };
+
+  calculateTimeLeft();
+  const interval = setInterval(calculateTimeLeft, 1000);
+
+  return () => clearInterval(interval);
+}, [globalTimer]);
 
   if (loading) {
     return (
@@ -115,18 +161,35 @@ const SavedMeals = () => {
     );
   }
 
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-8">
+
+        {/* Global Timer Display */}
+        {globalTimer && (
+          <div className="bg-white rounded-2xl shadow-md p-4 text-center">
+            <h2 className="text-lg font-semibold text-indigo-700">🕒 Meal Selection Timer </h2>
+            <p className="text-gray-700 mt-1">
+              Start: <span className="font-medium">{globalTimer.start}</span> |{" "}
+              End: <span className="font-medium">{globalTimer.end}</span>
+            </p>
+            <p className="text-gray-700 mt-1">
+  Time Left:{" "}
+  <span className="font-semibold text-lg text-green-600">
+    {timeLeft}
+  </span>
+</p>
+
+          </div>
+        )}
+
         <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
-          <h2 className="text-2xl font-bold text-center text-indigo-700 mb-2">
-            {mealDate && (
+          {mealDate && (
             <p className="text-2xl font-bold text-center text-indigo-700 mb-6">
               Select Meal For: {new Date(mealDate).toDateString()}
             </p>
           )}
-          </h2>
-          
 
           {savedMeals.length === 0 ? (
             <p className="text-center text-gray-500">No meals available</p>

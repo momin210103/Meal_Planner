@@ -88,17 +88,13 @@ const LoginPage = () => {
             type="submit"
             disabled={loading}
             className={`w-full ${
-              loading ? 'bg-green-300 cursor-not-allowed' : 'bg-green-500 hover:bg-green-800'
-            } text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer`}
+              loading ? 'bg-green-300 cursor-not-allowed' : 'bg-[#89ce00] hover:bg-[#5ba300]'
+            } text-black py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer`}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-          <button className='w-full mt-4 text-center'>
-          <Link to="/adminlogin" className=" bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer">
-          Login As a Manager
-          </Link>
-          </button>
+
         <p className="mt-4 text-center text-gray-600">
           Don't have an account?{' '}
           <Link to="/signup" className="text-blue-500 hover:underline">

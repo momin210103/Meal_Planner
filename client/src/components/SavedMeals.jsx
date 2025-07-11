@@ -9,7 +9,6 @@ import {
 } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 
-
 const SavedMeals = () => {
   const [savedMeals, setSavedMeals] = useState([]);
   const [mealDate, setMealDate] = useState(null);
@@ -55,7 +54,10 @@ const SavedMeals = () => {
 
   const fetchGlobalTimer = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/globaltimer",{withCredentials:true});
+      const response = await axios.get(
+        "http://localhost:8000/api/v1/globaltimer",
+        { withCredentials: true }
+      );
       console.log("Fetched global timer:", response.data.data);
       setGlobalTimer(response.data.data);
     } catch (error) {
@@ -113,35 +115,37 @@ const SavedMeals = () => {
     }
   };
 
-useEffect(() => {
-  if (!globalTimer) return;
+  useEffect(() => {
+    if (!globalTimer) return;
 
-  const calculateTimeLeft = () => {
-    const [endHours, endMinutes] = globalTimer.end.split(":").map(Number);
-    const now = new Date();
-    const endTime = new Date();
-    endTime.setHours(endHours, endMinutes, 0, 0);
+    const calculateTimeLeft = () => {
+      const [endHours, endMinutes] = globalTimer.end.split(":").map(Number);
+      const now = new Date();
+      const endTime = new Date();
+      endTime.setHours(endHours, endMinutes, 0, 0);
 
-    const diff = endTime - now;
-    if (diff > 0) {
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      setTimeLeft(
-        `${hours.toString().padStart(2, "0")}:${minutes
-          .toString()
-          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-      );
-    } else {
-      setTimeLeft("00:00:00");
-    }
-  };
+      const diff = endTime - now;
+      if (diff > 0) {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        setTimeLeft(
+          `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+        );
+      } else {
+        setTimeLeft("00:00:00");
+      }
+    };
 
-  calculateTimeLeft();
-  const interval = setInterval(calculateTimeLeft, 1000);
+    calculateTimeLeft();
+    const interval = setInterval(calculateTimeLeft, 1000);
 
-  return () => clearInterval(interval);
-}, [globalTimer]);
+    return () => clearInterval(interval);
+  }, [globalTimer]);
+
+  const isTimeEnded = timeLeft === "00:00:00";
 
   if (loading) {
     return (
@@ -161,26 +165,25 @@ useEffect(() => {
     );
   }
 
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-8">
-
         {/* Global Timer Display */}
         {globalTimer && (
           <div className="bg-white rounded-2xl shadow-md p-4 text-center">
-            <h2 className="text-lg font-semibold text-indigo-700">🕒 Meal Selection Timer </h2>
+            <h2 className="text-lg font-semibold text-indigo-700">
+              🕒 Meal Selection Timer{" "}
+            </h2>
             <p className="text-gray-700 mt-1">
               Start: <span className="font-medium">{globalTimer.start}</span> |{" "}
               End: <span className="font-medium">{globalTimer.end}</span>
             </p>
             <p className="text-gray-700 mt-1">
-  Time Left:{" "}
-  <span className="font-semibold text-lg text-green-600">
-    {timeLeft}
-  </span>
-</p>
-
+              Time Left:{" "}
+              <span className="font-semibold text-lg text-green-600">
+                {timeLeft}
+              </span>
+            </p>
           </div>
         )}
 
@@ -220,9 +223,14 @@ useEffect(() => {
 
               <button
                 onClick={handleSubmit}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg mt-6"
+                disabled={isTimeEnded}
+                className={`w-full font-semibold py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg mt-6 ${
+                  isTimeEnded
+                    ? "bg-gray-400 cursor-not-allowed text-white"
+                    : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                }`}
               >
-                Submit Selected Meals
+                {isTimeEnded ? "Time Ended" : "Submit Selected Meals"}
               </button>
 
               {submittedMeals.length > 0 && (

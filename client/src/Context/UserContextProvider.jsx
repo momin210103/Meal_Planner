@@ -7,7 +7,7 @@ const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/v1/users/me', {withCredentials: true})
+        axios.get('https://mealplannerserverside.onrender.com/api/v1/users/me', {withCredentials: true})
         .then((response) =>{
             setUser(response.data.data);
         })

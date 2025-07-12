@@ -11,7 +11,7 @@ const MealWeightEditor = ({ onSave }) => {
     const fetchWeights = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/v1/mealplan/weight",
+          "https://mealplannerserverside.onrender.com/api/v1/mealplan/weight",
           { withCredentials: true }
         );
         const serverWeights = res.data; // Ensure your API returns { breakfast, lunch, dinner }
@@ -44,7 +44,7 @@ const MealWeightEditor = ({ onSave }) => {
     try {
       for (const type of Object.keys(weights)) {
         await axios.post(
-          "http://localhost:8000/api/v1/mealplan/weight",
+          "https://mealplannerserverside.onrender.com/api/v1/mealplan/weight",
           { type, weight: weights[type] },
           { withCredentials: true }
         );

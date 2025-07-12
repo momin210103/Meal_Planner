@@ -11,7 +11,7 @@ const BazarList = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/v1/bazarlist', { withCredentials: true })
+    axios.get('https://mealplannerserverside.onrender.com/api/v1/bazarlist', { withCredentials: true })
       .then((response) => {
         setBazarList(response.data.bazarlist);
         setTotalAmount(response.data.totalAmount);

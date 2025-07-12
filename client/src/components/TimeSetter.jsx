@@ -18,7 +18,7 @@ const TimeSetter = () => {
 
     try {
       await axios.post(
-        'http://localhost:8000/api/v1/createtimer',
+        'https://mealplannerserverside.onrender.com/api/v1/createtimer',
         { end: endTime },
         { withCredentials: true }
       );

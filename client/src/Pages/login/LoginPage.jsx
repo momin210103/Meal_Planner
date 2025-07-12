@@ -18,7 +18,6 @@ const LoginPage = () => {
       await axios.post('/api/v1/users/login', {
       email,
       password,
-
     },{
       withCredentials: true
     });

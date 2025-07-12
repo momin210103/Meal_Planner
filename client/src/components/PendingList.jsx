@@ -11,7 +11,7 @@ const PendingDepositList = () => {
   const fetchPendingDeposits = async () => {
     try {
       const pendingData = await axios.get(
-        `http://localhost:8000/api/v1/pending-deposits`,
+        `https://mealplannerserverside.onrender.com/api/v1/pending-deposits`,
         { withCredentials: true }
       );
       setPendingDeposits(pendingData.data);
@@ -28,7 +28,7 @@ const PendingDepositList = () => {
     try {
       setApprovingId(depositId);
       await axios.post(
-        `http://localhost:8000/api/v1/approve-pending-deposit/${depositId}`,
+        `https://mealplannerserverside.onrender.com/api/v1/approve-pending-deposit/${depositId}`,
         {},
         { withCredentials: true }
       );

@@ -14,7 +14,7 @@ const CountdownTimer = () => {
     // Load saved settings from backend
     const loadSettings = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/users/timer-settings', {
+        const response = await axios.get('https://mealplannerserverside.onrender.com/api/v1/users/timer-settings', {
           withCredentials: true
         });
         if (response.data) {
@@ -75,7 +75,7 @@ const CountdownTimer = () => {
 
   const handleSaveSettings = async () => {
     try {
-      await axios.post('http://localhost:8000/api/v1/users/timer-settings', settings, {
+      await axios.post('https://mealplannerserverside.onrender.com/api/v1/users/timer-settings', settings, {
         withCredentials: true
       });
       setIsEditing(false);

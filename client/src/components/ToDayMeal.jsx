@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Card from './card/Card';
 import MealSwitch from './MealSwitch';
-import Countdown from './CountDown';
+import Countdown from './Countdown';
 import axios from 'axios';
 
 const ToDayMeal = () => {

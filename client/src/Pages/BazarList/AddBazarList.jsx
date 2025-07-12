@@ -35,7 +35,7 @@ const AddBazarList = () => {
             setMessage('');
             setMessageType('');
 
-            await fetch('http://localhost:8000/api/v1/bazarlist/create', {
+            await fetch('https://mealplannerserverside.onrender.com/api/v1/bazarlist/create', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },

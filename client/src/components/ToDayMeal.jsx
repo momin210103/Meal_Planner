@@ -32,7 +32,7 @@ const ToDayMeal = () => {
   useEffect(() => {
     const fetchTimeSettings = async () => {
       try {
-        const response = await axios.post('http://localhost:8000/api/v1/users/timer-settings', {}, { withCredentials: true });
+        const response = await axios.post('https://mealplannerserverside.onrender.com/api/v1/users/timer-settings', {}, { withCredentials: true });
         if (response.data) {
           setTimeSettings(response.data);
         }
@@ -87,7 +87,7 @@ const ToDayMeal = () => {
   const handleSaveSelection = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/v1/users/dailymeal',
+        'https://mealplannerserverside.onrender.com/api/v1/users/dailymeal',
         { date: tomorrow, selection: mealSelection },
         { withCredentials: true }
       );
@@ -103,7 +103,7 @@ const ToDayMeal = () => {
   useEffect(() => {
     const fetchSaveMeal = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/users/dailymeal?date', {
+        const response = await axios.get('https://mealplannerserverside.onrender.com/api/v1/users/dailymeal?date', {
           withCredentials: true
         });
         if (response.data) {
@@ -121,7 +121,7 @@ const ToDayMeal = () => {
   useEffect(() => {
     const fetchMealPlan = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/v1/users/mealplan', { withCredentials: true });
+        const res = await axios.get('https://mealplannerserverside.onrender.com/api/v1/users/mealplan', { withCredentials: true });
         const mealData = res.data?.data?.mealPlans?.[0]?.meals || {};
         console.log(mealData);
         setMealItem({

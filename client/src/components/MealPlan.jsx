@@ -63,7 +63,7 @@ const MealPlan = () => {
         mealsArray.push({ type: "dinner", name: mealPlan.dinner.name.trim() });
       }
 
-      const response = await axios.post("http://localhost:8000/api/v1/mealplan", {
+      const response = await axios.post("https://mealplannerserverside.onrender.com/api/v1/mealplan", {
         date: formattedDate,
         meals: mealsArray,
       }, { withCredentials: true });

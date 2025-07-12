@@ -59,7 +59,7 @@ const BorderList = () => {
     });
     if(result.isConfirmed){
       try {
-        await axios.delete(`http://localhost:8000/api/v1/deleteuser/${id}`,{withCredentials:true})
+        await axios.delete(`https://mealplannerserverside.onrender.com/api/v1/deleteuser/${id}`,{withCredentials:true})
         toast.success("Deleted successfully");
         
       } catch (error) {
@@ -83,7 +83,7 @@ const BorderList = () => {
     });
     if(result.isConfirmed){
       try {
-        await axios.patch(`http://localhost:8000/api/v1/setmanager/${id}`,{},{withCredentials:true})
+        await axios.patch(`https://mealplannerserverside.onrender.com/api/v1/setmanager/${id}`,{},{withCredentials:true})
         toast.success("User Set as a Manager");
         
       } catch (error) {
@@ -106,7 +106,7 @@ const BorderList = () => {
     });
     if(result.isConfirmed){
       try {
-        await axios.patch(`http://localhost:8000/api/v1/removemanager/${id}`,{},{withCredentials:true})
+        await axios.patch(`https://mealplannerserverside.onrender.com/api/v1/removemanager/${id}`,{},{withCredentials:true})
         toast.success("User Set as a Manager");
         
       } catch (error) {

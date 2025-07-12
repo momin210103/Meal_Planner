@@ -38,7 +38,7 @@ const SavedMeals = () => {
   const fetchSavedMeals = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/mealplan/latest",
+        "https://mealplannerserverside.onrender.com/api/v1/mealplan/latest",
         { withCredentials: true }
       );
       const { date, meals } = response.data.data;
@@ -55,7 +55,7 @@ const SavedMeals = () => {
   const fetchGlobalTimer = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/globaltimer",
+        "https://mealplannerserverside.onrender.com/api/v1/globaltimer",
         { withCredentials: true }
       );
       console.log("Fetched global timer:", response.data.data);
@@ -95,7 +95,7 @@ const SavedMeals = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/dailymeal",
+        "https://mealplannerserverside.onrender.com/api/v1/dailymeal",
         {
           meals: selectedMeals,
           date: mealDate

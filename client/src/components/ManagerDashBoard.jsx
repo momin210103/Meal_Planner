@@ -42,22 +42,22 @@ const TotalMealsDashboard = () => {
         const now = new Date();
         const month = now.toISOString().slice(0, 7);
 
-        const monthRes = await axios.get(`http://localhost:8000/api/v1/totalmealsofmonth/${month}`, { withCredentials: true });
+        const monthRes = await axios.get(`https://mealplannerserverside.onrender.com/api/v1/totalmealsofmonth/${month}`, { withCredentials: true });
         setMonthData(monthRes.data.data);
 
-        const resLatestDate = await axios.get("http://localhost:8000/api/v1/mealplan/latest", { withCredentials: true });
+        const resLatestDate = await axios.get("https://mealplannerserverside.onrender.com/api/v1/mealplan/latest", { withCredentials: true });
         const todayStr = resLatestDate.data.data.date;
         const formattedDate = new Date(todayStr).toISOString().split("T")[0];
         setLatestDate(formattedDate);
 
-        const res = await axios.get(`http://localhost:8000/api/v1/totalweights/${todayStr}`, { withCredentials: true });
+        const res = await axios.get(`https://mealplannerserverside.onrender.com/api/v1/totalweights/${todayStr}`, { withCredentials: true });
         setMealData({ ...res.data.data, date: todayStr });
         setFetchTime(new Date().toLocaleTimeString());
 
-        const costRes = await axios.get(`http://localhost:8000/api/v1/bazarlist?month=${month}`, { withCredentials: true });
+        const costRes = await axios.get(`https://mealplannerserverside.onrender.com/api/v1/bazarlist?month=${month}`, { withCredentials: true });
         setTotalCost(costRes.data.totalAmount);
 
-        const balanceRes = await axios.get(`http://localhost:8000/api/v1/allusercurrentbalance?month=${month}`, { withCredentials: true });
+        const balanceRes = await axios.get(`https://mealplannerserverside.onrender.com/api/v1/allusercurrentbalance?month=${month}`, { withCredentials: true });
         setTotalBalance(balanceRes.data.totalDeposit);
 
         const totalCostVal = costRes.data.totalAmount;

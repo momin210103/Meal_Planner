@@ -27,7 +27,7 @@ const ADDBalance = () => {
     const handleConfirmAddBalance = async () => {
         try {
             const response = await axios.put(
-                "http://localhost:8000/api/v1/addbalance",
+                "https://mealplannerserverside.onrender.com/api/v1/addbalance",
                 { amount: Number(amount), date },
                 { withCredentials: true }
             );

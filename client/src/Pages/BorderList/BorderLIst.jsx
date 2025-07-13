@@ -14,7 +14,7 @@ const BorderList = () => {
 
   // Fetch data from the API
   useEffect(() => {
-    axios.get('/api/v1/users/register')
+    axios.get('https://mealplannerserverside.onrender.com/api/v1/users/register')
       .then((response) => {
         setBorders(response.data);
         console.log(response.data[0]._id);

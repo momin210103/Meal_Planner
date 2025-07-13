@@ -15,7 +15,7 @@ const LoginPage = () => {
     setLoading(true);
     setErrorMessage('');
     try{
-      await axios.post('/api/v1/users/login', {
+      await axios.post('https://mealplannerserverside.onrender.com/api/v1/users/login', {
       email,
       password,
     },{

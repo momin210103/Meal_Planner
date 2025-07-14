@@ -16,7 +16,7 @@ const EmailVerifyPage = () => {
     const verify = async () => {
       try {
         // Log the backend URL being used
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const backendUrl = "https://mealplannerserverside.onrender.com";
         console.log("Backend URL:", backendUrl);
         
         if (!backendUrl) {
@@ -30,10 +30,10 @@ const EmailVerifyPage = () => {
           `${backendUrl}/api/v1/users/verify-email`,
           { email, code },
           {
+            withCredentials: true,
             headers: {
-              'Content-Type': 'application/json',
-            },
-            timeout: 5000
+              'Content-Type': 'application/json'
+            }
           }
         );
         

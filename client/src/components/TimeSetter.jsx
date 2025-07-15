@@ -37,7 +37,7 @@ const TimeSetter = () => {
       <FiClock className="mx-auto text-[#5ba300] text-4xl" />
       <h3 className="text-lg font-semibold text-black mt-4">Set Meal Selection End Time</h3>
 
-      <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4 text-black">
         <input
           type="time"
           value={endTime}

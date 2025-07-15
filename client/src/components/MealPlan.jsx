@@ -84,7 +84,7 @@ const MealPlan = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-6">
-        <button onClick={() => navigate(-1)} className="flex items-center text-black bg-violet-100 border-2 hover:text-gray-900">
+        <button onClick={() => navigate(-1)} className="flex items-center text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg px-4 py-2 mb-4">
           <FiArrowLeft className="mr-2" /> <span>Back</span>
         </button>
 
@@ -97,7 +97,7 @@ const MealPlan = () => {
     type="date"
     value={selectedDate}
     onChange={(e) => setSelectedDate(e.target.value)}
-    className="w-full border text-black border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    className="w-full border text-black border-black rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
   />
             </div>
             {/* <span className="text-sm text-gray-500">{tomorrowFormatted}</span> */}

@@ -64,7 +64,7 @@ const MonthlyMealTable = () => {
         📅 Current Month Meal Summary
       </h2>
       <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
-        <thead className="bg-indigo-100">
+        <thead className="bg-[#2546f0] text-white">
           <tr>
             <th className="p-3">Date</th>
             <th className="p-3">Breakfast</th>
@@ -75,7 +75,7 @@ const MonthlyMealTable = () => {
         </thead>
         <tbody>
           {monthData.map((day, index) => (
-            <tr key={index} className="text-center border-b hover:bg-indigo-50">
+            <tr key={index} className="text-center text-black font-semibold border-b hover:bg-indigo-50">
               <td className="p-2">{day.date}</td>
               <td className="p-2">{day.breakfast}</td>
               <td className="p-2">{day.lunch}</td>
@@ -85,11 +85,11 @@ const MonthlyMealTable = () => {
           ))}
         </tbody>
         <tfoot>
-          <tr className="bg-blue-200 font-bold text-lg">
-            <td colSpan="4" className="text-right p-3 rounded-bl-lg">
+          <tr className="bg-[#009eb0] font-bold text-lg">
+            <td colSpan="4" className="text-right p-3 rounded-bl-lg text-black font-extrabold">
               Total Meal:
             </td>
-            <td className="p-3 text-center rounded-br-lg">{totalWeight}</td>
+            <td className="p-3 text-center rounded-br-lg text-black font-extrabold">{totalWeight}</td>
           </tr>
         </tfoot>
       </table>

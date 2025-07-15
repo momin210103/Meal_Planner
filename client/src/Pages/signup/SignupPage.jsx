@@ -55,7 +55,7 @@ const SignupPage = () => {
     setIsLoading(true);
     setErrors({});
     try {
-      await axios.post('/api/v1/users/register', {
+      await axios.post('https://mealplannerserverside.onrender.com/api/v1/users/register', {
         fullName: formData.fullName,
         email: formData.email,
         username: formData.username,

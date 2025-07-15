@@ -127,10 +127,10 @@ const BorderList = () => {
   }
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 p-2 sm:p-3 md:p-5">
+    <section className="bg-white  p-2 sm:p-3 md:p-5">
       <div className="mx-auto max-w-screen-xl px-2 sm:px-4 lg:px-12">
         <h1 className="text-2xl sm:text-3xl font-bold text-[#f57600] dark:text-white mb-4 sm:mb-6 text-center py-2 rounded-lg">Border Lists</h1>
-        <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+        <div className="bg-white  relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col space-y-3 p-3 sm:p-4">
             <div className="w-full">
               <form className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">

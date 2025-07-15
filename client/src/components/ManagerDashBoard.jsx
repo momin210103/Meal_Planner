@@ -127,29 +127,29 @@ const TotalMealsDashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiPieChart className="mx-auto text-[#f57600] text-3xl" />
-            <h3 className="text-lg font-semibold mt-1">Meal Rate</h3>
-            <p className="text-xl font-bold">{mealRate ? `${mealRate} Tk/meal` : "--"}</p>
+            <h3 className="text-lg font-semibold mt-1 text-black">Meal Rate</h3>
+            <p className="text-xl font-bold text-black">{mealRate ? `${mealRate} Tk/meal` : "--"}</p>
             <p className="text-gray-500 text-sm">This Month</p>
           </div>
 
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiTrendingUp className="mx-auto text-green-600 text-3xl" />
-            <h3 className="text-lg font-semibold mt-1">Total Deposit</h3>
-            <p className="text-xl font-bold">{totalBalance !== null ? `${totalBalance} Tk` : "--"}</p>
+            <h3 className="text-lg font-semibold mt-1 text-black">Total Deposit</h3>
+            <p className="text-xl font-bold text-black">{totalBalance !== null ? `${totalBalance} Tk` : "--"}</p>
             <p className="text-gray-500 text-sm">This Month</p>
           </div>
 
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <GiTakeMyMoney className="mx-auto text-[#5ba300] text-3xl" />
-            <h3 className="text-lg font-semibold mt-1">Current Balance</h3>
-            <p className="text-xl font-bold">{currentBalance !== null ? `${currentBalance} Tk` : "--"}</p>
+            <h3 className="text-lg font-semibold mt-1 text-black">Current Balance</h3>
+            <p className="text-xl font-bold text-black">{currentBalance !== null ? `${currentBalance} Tk` : "--"}</p>
             <p className="text-gray-500 text-sm">This Month</p>
           </div>
 
           <div className="bg-white p-4 rounded-xl shadow text-center">
             <FiDollarSign className="mx-auto text-indigo-600 text-3xl" />
-            <h3 className="text-lg font-semibold mt-1">Total Cost</h3>
-            <p className="text-xl font-bold">{totalCost !== null ? `${totalCost} Tk` : "--"}</p>
+            <h3 className="text-lg font-semibold mt-1 text-black">Total Cost</h3>
+            <p className="text-xl font-bold text-black">{totalCost !== null ? `${totalCost} Tk` : "--"}</p>
             <p className="text-gray-500 text-sm">This Month</p>
           </div>
         </div>

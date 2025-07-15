@@ -85,7 +85,7 @@ const MealWeightEditor = ({ onSave }) => {
               min="0"
               value={weights[meal]}
               onChange={(e) => handleChange(meal, e.target.value)}
-              className="w-24 px-3 py-1 border rounded-xl text-center text-sm focus:outline-none focus:ring focus:ring-blue-200"
+              className="w-24 px-3 py-1 text-black  border rounded-xl text-center text-semibold focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
         ))}

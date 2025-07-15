@@ -35,14 +35,14 @@ const TimeSetter = () => {
   return (
     <div className="bg-white p-6 rounded-xl shadow-md text-center max-w-sm mx-auto">
       <FiClock className="mx-auto text-[#5ba300] text-4xl" />
-      <h3 className="text-lg font-semibold mt-4">Set Meal Selection End Time</h3>
+      <h3 className="text-lg font-semibold text-black mt-4">Set Meal Selection End Time</h3>
 
       <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
         <input
           type="time"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
-          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5ba300]"
+          className="p-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5ba300]"
           disabled={loading}
         />
         <button

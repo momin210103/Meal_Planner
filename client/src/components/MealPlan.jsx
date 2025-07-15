@@ -84,12 +84,12 @@ const MealPlan = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-6">
-        <button onClick={() => navigate(-1)} className="flex items-center text-gray-600 hover:text-gray-900">
+        <button onClick={() => navigate(-1)} className="flex items-center text-black bg-violet-100 border-2 hover:text-gray-900">
           <FiArrowLeft className="mr-2" /> <span>Back</span>
         </button>
 
         <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 flex items-center space-x-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-black mb-4 flex items-center space-x-2">
             <span>Set Meal Plan</span>
             {/* <FiClock className="text-gray-500" /> */}
             <div>
@@ -97,7 +97,7 @@ const MealPlan = () => {
     type="date"
     value={selectedDate}
     onChange={(e) => setSelectedDate(e.target.value)}
-    className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    className="w-full border text-black border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
   />
             </div>
             {/* <span className="text-sm text-gray-500">{tomorrowFormatted}</span> */}
@@ -105,7 +105,7 @@ const MealPlan = () => {
 
           {['breakfast', 'lunch', 'dinner'].map((meal) => (
             <div key={meal} className="mb-4">
-              <label className="block mb-1 font-medium capitalize">{meal}</label>
+              <label className="block mb-1 capitalize font-bold text-black">{meal}</label>
               <input
                 type="text"
                 name={meal}

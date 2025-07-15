@@ -109,7 +109,7 @@ const SignupPage = () => {
                 value={formData[id]}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${errors[id] ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
+                className={`w-full px-4 py-2 border rounded-lg font-black focus:outline-none focus:ring-2 transition ${errors[id] ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
                   }`}
               />
               {errors[id] && <p className="text-red-500 text-xs mt-1">{errors[id]}</p>}
@@ -129,7 +129,7 @@ const SignupPage = () => {
                   value={formData[id]}
                   onChange={handleChange}
                   placeholder={id === 'password' ? '********' : 'Re-enter your password'}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${errors[id] ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
+                  className={`w-full px-4 py-2 font-black border rounded-lg focus:outline-none focus:ring-2 transition ${errors[id] ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
                     }`}
                 />
                 <button

@@ -216,7 +216,7 @@ const SignupPage = () => {
                 setVerifyLoading(true);
                 setVerifyError('');
                 try {
-                  await axios.post('/api/v1/users/verify-email', {
+                  await axios.post('https://mealplannerserverside.onrender.com/api/v1/users/verify-email', {
                     email: formData.email,
                     code: verificationCode
                   });

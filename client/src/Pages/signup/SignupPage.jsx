@@ -199,15 +199,15 @@ const SignupPage = () => {
       {showVerifyModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm transform transition-transform scale-95 animate-enter">
-            <h3 className="text-lg font-bold text-center mb-3">Verify Your Email ✉️</h3>
-            <p className="text-sm text-center text-gray-600 mb-4">Please check your email and enter the 6-digit verification code:</p>
+            <h3 className="text-lg font-bold text-black text-center mb-3">Verify Your Email ✉️</h3>
+            <p className="text-sm text-center text-black mb-4">Please check your email and enter the 6-digit verification code:</p>
             <input
               type="text"
               maxLength={6}
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
               placeholder="123456"
-              className="w-full px-4 py-2 border rounded-lg mb-3 text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="w-full text-black px-4 py-2 border rounded-lg mb-3 text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             />
             {verifyError && <p className="text-red-500 text-center text-sm mb-2">{verifyError}</p>}
 

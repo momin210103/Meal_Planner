@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-300 text-black py-10 mt-2 rounded-t-lg">
+    <footer className="bg-gray-100 bg-gradient-to-b text-black py-10 mt-2 rounded-t-lg">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
@@ -22,14 +22,14 @@ const Footer = () => {
           <div className="text-center">
             <h4 className="text-lg font-bold mb-4">Follow Us</h4>
             <div className="flex justify-center space-x-6">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-800 transition-colors">
                 <FaFacebook/>
               </a>
-              <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">
+              <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-800 transition-colors">
                 
                 <FaTwitter/>
               </Link>
-              <Link to="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400 transition-colors">
+              <Link to="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-800 transition-colors">
                 <FaInstagram/>
               </Link>
             </div>

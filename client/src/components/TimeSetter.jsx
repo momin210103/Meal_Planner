@@ -42,7 +42,7 @@ const TimeSetter = () => {
           type="time"
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
-          className="p-3 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5ba300]"
+          className="p-3 border bg-white border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5ba300]"
           disabled={loading}
         />
         <button

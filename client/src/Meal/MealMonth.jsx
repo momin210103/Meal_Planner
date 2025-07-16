@@ -60,7 +60,7 @@ const MonthlyMealTable = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4 overflow-x-auto">
-      <h2 className="text-xl font-bold text-center mb-4">
+      <h2 className="text-xl font-extrabold text-black text-center mb-4">
         📅 Current Month Meal Summary
       </h2>
       <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">

@@ -129,13 +129,13 @@ const BorderList = () => {
   return (
     <section className="bg-white  p-2 sm:p-3 md:p-5">
       <div className="mx-auto max-w-screen-xl px-2 sm:px-4 lg:px-12">
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#f57600] dark:text-white mb-4 sm:mb-6 text-center py-2 rounded-lg">Border Lists</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#f57600] dark:text-white mb-4 sm:mb-6 text-center py-2 rounded-lg bg-white">Border Lists</h1>
         <div className="bg-white  relative shadow-md sm:rounded-lg overflow-hidden">
           <div className="flex flex-col space-y-3 p-3 sm:p-4">
             <div className="w-full">
               <form className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <div className="relative flex-grow">
-                  <label htmlFor="simple-search" className="sr-only">Search</label>
+                  <label htmlFor="simple-search" className="sr-only text-white">Search</label>
                   <div className="relative w-full">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                       <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +145,7 @@ const BorderList = () => {
                     <input 
                       type="text" 
                       id="simple-search" 
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                      className="bg-gray-50 border border-gray-300 font-black text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
                       placeholder="Search by name, email, phone, role or room..." 
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
@@ -227,7 +227,7 @@ const BorderList = () => {
               <div className="overflow-hidden">
                 <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-full">
                   <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                    <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold sticky top-0">
+                    <thead className="text-xs text-black uppercase bg-white font-extrabold dark:bg-gray-700 dark:text-gray-400  sticky top-0">
                       <tr>
                         <th key="sl-no" scope="col" className="px-3 py-2 sm:px-4 sm:py-3 bg-gray-50 dark:bg-gray-700">SL NO</th>
                         <th key="full-name" scope="col" className="px-3 py-2 sm:px-4 sm:py-3 bg-gray-50 dark:bg-gray-700">Full Name</th>
@@ -308,7 +308,7 @@ const BorderList = () => {
               of
               <span className="font-semibold text-gray-900 dark:text-white mx-1">{filteredBorders.length}</span>
             </span>
-            <ul className="inline-flex items-stretch -space-x-px">
+            <ul className="inline-flex items-stretch -space-x-px text-black bg-white">
               <li>
                 <a href="#" className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                   <span className="sr-only">Previous</span>

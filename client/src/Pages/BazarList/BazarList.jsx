@@ -39,7 +39,7 @@ const BazarList = () => {
   if (error) return <div className="text-center py-8 text-red-500">{error}</div>;
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 p-4">
+    <section className="bg-gray-50  p-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-bold text-[#f57600] dark:text-white text-center mb-6">
           Bazar Lists

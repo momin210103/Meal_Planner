@@ -50,11 +50,11 @@ const PendingDepositList = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-xl font-bold mb-6 text-center">🪙 Pending Deposits</h2>
+      <h2 className="text-xl bg-[#a6e9de] text-black font-bold mb-6 text-center">🪙 Pending Deposits</h2>
 
       <div className="overflow-x-auto shadow-lg rounded-2xl">
         <table className="min-w-full bg-white border border-gray-200 rounded-2xl">
-          <thead className="bg-gray-50">
+          <thead className="bg-[#cff0fb] text-black">
             <tr>
               <th className="py-3 px-4 text-left font-semibold text-gray-700">Name</th>
               <th className="py-3 px-4 text-left font-semibold text-gray-700">Date</th>

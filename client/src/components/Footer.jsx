@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-10 mt-2 rounded-t-lg">
+    <footer className="bg-gray-300 text-black py-10 mt-2 rounded-t-lg">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
@@ -55,7 +55,7 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-black">
           <p>&copy; {new Date().getFullYear()} Meal Planner. All rights reserved.</p>
         </div>
       </div>

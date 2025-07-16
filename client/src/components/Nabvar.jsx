@@ -19,8 +19,8 @@ const NavItems = ({ toggle }) => {
             to={item.path}
             className={({ isActive }) =>
               isActive
-                ? "text-black border-4 border-b-lime-500 bg-amber-800 font-semibold"
-                : "text-black hover:text-amber-500 transition-colors duration-300"
+                ? "text-black border-b-2 border-amber-500 font-bold"
+                : "text-black hover:text-amber-500 hover:font-extrabold transition-colors duration-300"
             }
           >
             {item.label}

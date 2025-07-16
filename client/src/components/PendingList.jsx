@@ -79,7 +79,7 @@ const PendingDepositList = () => {
                   <td className="py-3 px-4 border-t border-gray-200 text-black">
                     {deposit.userId?.fullName || deposit.userId?.name || "N/A"}
                   </td>
-                  <td className="py-3 px-4 border-t border-gray-200">
+                  <td className="py-3 px-4 border-t text-black border-gray-200">
                     {dayjs(deposit.date).format("YYYY-MM-DD")}
                   </td>
                   <td className="py-3 px-4 border-t border-gray-200 text-black">

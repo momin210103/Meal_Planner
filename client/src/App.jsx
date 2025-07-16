@@ -8,7 +8,7 @@ import {Toaster} from 'react-hot-toast';
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarPaths = ['/about','/login','/signup','/addbalance','/profile','/mealmonth','/dashboard','/borderlist','/mealplan','/bazarlist']
+  const hideNavbarPaths = ['/about','','','/addbalance','/profile','/mealmonth','/dashboard','/borderlist','/mealplan','/bazarlist']
   const shouldHideNavbar = hideNavbarPaths.includes(location.pathname);
   
   return (
@@ -18,7 +18,7 @@ const App = () => {
         <nav><Nabvar/></nav>
       )}
    
-   <main className='min-h-screen pt-20'><Outlet/></main>
+   <main className='min-h-screen pt-20 bg-white'><Outlet/></main>
    <Toaster position='top-center' reverseOrder={false} />
    {/* Show Footer only if not in hidden paths */}
    {

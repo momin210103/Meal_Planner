@@ -19,8 +19,8 @@ const NavItems = ({ toggle }) => {
             to={item.path}
             className={({ isActive }) =>
               isActive
-                ? "text-amber-500 font-semibold"
-                : "text-white hover:text-amber-500 transition-colors duration-300"
+                ? "text-black border-4 border-b-lime-500 bg-amber-800 font-semibold"
+                : "text-black hover:text-amber-500 transition-colors duration-300"
             }
           >
             {item.label}
@@ -52,9 +52,9 @@ const Navbar = () => {
         </div>
 
         {/* Desktop menu */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-8 text-black">
           <NavItems />
-          <div className="cursor-pointer text-white hover:text-amber-500 transition-colors duration-300">
+          <div className="cursor-pointer text-black hover:text-amber-500 transition-colors duration-300">
             
           </div>
         </div>

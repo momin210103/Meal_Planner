@@ -42,10 +42,14 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <button onClick={() => navigate(-1)} className="flex items-center text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg px-4 py-2 mb-4">
-                <FiArrowLeft className="mr-2" /> <span>Back</span>
-              </button>
+      
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <button
+      onClick={() => navigate(-1)}
+      className="absolute top-4 left-4 flex items-center text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg px-3 py-1 text-sm"
+    >
+      <FiArrowLeft className="mr-1" /> <span>Back</span>
+    </button>
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
         {errorMessage && (<p className="mb-4 text-center text-red-500">{errorMessage}</p>
       )}

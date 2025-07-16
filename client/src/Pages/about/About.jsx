@@ -26,7 +26,7 @@ const About = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white p-6 mt-10">
+    <footer className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-black p-6 mt-10">
       <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {teamMembers.map((member, index) => (
           <div

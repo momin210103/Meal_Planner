@@ -50,6 +50,7 @@ const LoginPage = () => {
     >
       <FiArrowLeft className="mr-1" /> <span>Back</span>
     </button>
+    <h1 className='text-3xl font-bold mb-6 text-center text-gray-800'>Welcome Back</h1>
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
         {errorMessage && (<p className="mb-4 text-center text-red-500">{errorMessage}</p>
       )}
@@ -90,6 +91,12 @@ const LoginPage = () => {
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
+            <div className="flex justify-end mt-1">
+    <Link to="/forgot-password" className="text-sm text-blue-500 hover:underline">
+      Forgot password?
+    </Link>
+  </div>
+            
           </div>
           <button
             type="submit"

@@ -22,6 +22,7 @@ const LoginPage = () => {
     },{
       withCredentials: true
     });
+    localStorage.setItem('isLoggedIn', 'true');
     console.log('Login successful!')
     navigate('/dashboard')
     }catch (error) {

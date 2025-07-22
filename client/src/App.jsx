@@ -8,7 +8,7 @@ import {Toaster} from 'react-hot-toast';
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarPaths = ['/about','','','/addbalance','/profile','/mealmonth','/dashboard','/borderlist','/mealplan','/bazarlist']
+  const hideNavbarPaths = ['/about','','','/addbalance','/profile','/mealmonth','/borderlist','/mealplan','/bazarlist']
   const shouldHideNavbar = hideNavbarPaths.includes(location.pathname);
   
   return (

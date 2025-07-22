@@ -23,10 +23,10 @@ const UserDashBoard = () => {
   // });
 
   // Handle logout
-  const handleLogout = () => {
-    // setUser(null); // Clear mock user data
-    navigate('/login'); // Redirect to login page
-  };
+  // const handleLogout = () => {
+  //   // setUser(null); // Clear mock user data
+  //   navigate('/login'); // Redirect to login page
+  // };
 
   // if (!user) {
   //   return <div className="text-center py-8">Loading...</div>; // Show loading state
@@ -36,7 +36,7 @@ const UserDashBoard = () => {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <header className="bg-white shadow sticky top-0 z-10">
+      {/* <header className="bg-white shadow sticky top-0 z-10">
         <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Dashboard</h1>
           <button
@@ -46,7 +46,7 @@ const UserDashBoard = () => {
             Logout
           </button>
         </div>
-      </header>
+      </header> */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">

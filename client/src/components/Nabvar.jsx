@@ -1,62 +1,85 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router"; // Corrected import
+import { Link, NavLink } from "react-router-dom";
 import { FaShopify, FaBars, FaTimes } from "react-icons/fa";
-import logo from '../assets/Logo.png'
-
-const navItems = [
-  { path: "/", label: "Home" },
-  { path: "/about", label: "About" },
-  { path: "/contact", label: "Contact" },
-  { path: "/login", label: "Login" },
-];
-
-const NavItems = ({ toggle }) => {
-  return (
-    <ul className="flex flex-col md:flex-row border-x-green-300 items-center md:space-x-8 gap-8">
-      {navItems.map((item, index) => (
-        <li key={index} onClick={toggle}>
-          <NavLink
-            to={item.path}
-            className={({ isActive }) =>
-              isActive
-                ? "text-black border-b-2 border-amber-500 font-bold"
-                : "text-black hover:text-amber-500 hover:font-extrabold transition-colors duration-300"
-            }
-          >
-            {item.label}
-          </NavLink>
-        </li>
-      ))}
-    </ul>
-  );
-};
+import logo from '../assets/Logo.png';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // TODO: replace with auth context later
 
   const toggle = () => {
-    setMenuOpen((prevState) => !prevState);
+    setMenuOpen((prev) => !prev);
   };
 
+  const handleLogout = () => {
+    // Clear tokens/cookies here
+    setIsLoggedIn(false);
+    setMenuOpen(false);
+  };
+
+  const navItems = [
+    { path: "/", label: "Home" },
+    { path: "/about", label: "About" },
+    { path: "/contact", label: "Contact" },
+    !isLoggedIn
+      ? { path: "/login", label: "Login" }
+      : { path: "/dashboard", label: "Dashboard" },
+  ];
+
+  const NavItems = ({ toggle }) => (
+    <ul className="flex flex-col md:flex-row items-center md:space-x-8 gap-8">
+      {navItems.map(
+        (item, index) =>
+          item && (
+            <li key={index} onClick={toggle}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-black border-b-2 border-amber-500 font-bold"
+                    : "text-black hover:text-amber-500 hover:font-extrabold transition-colors duration-300"
+                }
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          )
+      )}
+      {isLoggedIn && (
+        <li>
+          <button
+            onClick={handleLogout}
+            className="text-black hover:text-red-500 hover:font-bold transition-colors duration-300"
+          >
+            Logout
+          </button>
+        </li>
+      )}
+    </ul>
+  );
+
   return (
-    <header className=" fixed top-0 left-0 right-0 z-50 bg-white shadow-lg rounded-2xl ">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-lg rounded-2xl">
       <nav className="max-w-screen-2xl container mx-auto flex justify-between items-center py-4 px-6">
         <Link to="/" className="font-bold text-2xl text-black">
-          <img src={logo} alt="MealPlanner Logo" className="h-15 w-15 rounded-full hover:scale-105 transition-transform"/>
+          <img
+            src={logo}
+            alt="MealPlanner Logo"
+            className="h-14 w-14 rounded-full hover:scale-105 transition-transform"
+          />
         </Link>
-        
 
         {/* Hamburger menu */}
-        <div onClick={toggle} className="md:hidden text-xl cursor-pointer text-black hover:text-amber-500 transition-colors duration-300">
+        <div
+          onClick={toggle}
+          className="md:hidden text-xl cursor-pointer text-black hover:text-amber-500 transition-colors duration-300"
+        >
           {menuOpen ? null : <FaBars />}
         </div>
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-8 text-black">
           <NavItems />
-          <div className="cursor-pointer text-black hover:text-amber-500 transition-colors duration-300">
-            
-          </div>
         </div>
 
         {/* Mobile menu */}
@@ -69,8 +92,6 @@ const Navbar = () => {
             <FaTimes />
           </div>
           <NavItems toggle={toggle} />
-          <div className="cursor-pointer text-black hover:text-amber-500 transition-colors duration-300">
-          </div>
         </div>
       </nav>
     </header>

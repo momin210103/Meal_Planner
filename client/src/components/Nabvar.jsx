@@ -12,7 +12,7 @@ const navItems = [
 
 const NavItems = ({ toggle }) => {
   return (
-    <ul className="flex flex-col md:flex-row items-center md:space-x-8 gap-8">
+    <ul className="flex flex-col md:flex-row border-x-green-300 items-center md:space-x-8 gap-8">
       {navItems.map((item, index) => (
         <li key={index} onClick={toggle}>
           <NavLink

@@ -52,7 +52,7 @@ const ADDBalance = () => {
   const handleOnlinePayment = async () => {
     try {
       const response = await axios.post(
-        "https://mealplannerserverside.onrender.com/api/payment/initiate",
+        "https://mealplannerserverside.onrender.com/api/v1/payment/initiate",
         {
           amount: Number(amount),
           customerName: "John Doe", // Replace with actual logged-in user name
